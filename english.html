@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic English Letters Island | Knowledge Islands</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=800;900&family=Fredoka:wght=600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. Core Identity & Global Responsive Setup (Adapted from Arabic Version)
+           ========================================================================== */
+        :root {
+            --purple-magic: #8572fa;
+            --purple-light: #a29bfe;
+            --dark-blue: #222f3e;
+            --main-bg: #f0f7fc;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            
+            --baby-pink: #ff758f;
+            --baby-blue: #2575fc;
+            --baby-yellow: #ffde43;
+            --baby-green: #1dd1a1;
+        }
+
+        [data-theme="dark"] {
+            --main-bg: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --dark-blue: #020617;
+            --purple-magic: #473f9e;
+            --purple-light: #6c5ce7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Cairo', sans-serif; user-select: none; }
+        body { background: var(--main-bg); color: var(--text-color); transition: background 0.3s, color 0.3s; overflow-x: hidden; padding-bottom: 0; }
+
+        .magic-sparkle-particle {
+            position: fixed; width: 10px; height: 10px; border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+            animation: fadeSparkleParticle 0.8s forwards ease-out;
+        }
+        @keyframes fadeSparkleParticle { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
+
+        /* ==========================================================================
+           Top Controls
+           ========================================================================== */
+        .controls-wrapper {
+            position: fixed; top: 20px; left: 30px; z-index: 999; display: flex; gap: 12px;
+        }
+
+        .control-circle-btn {
+            width: 50px; height: 50px; background: #ffffff;
+            border: 3px solid var(--purple-magic); border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            font-size: 1.3rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .control-circle-btn:hover { transform: scale(1.1) rotate(10deg); }
+        
+        [data-theme="dark"] .control-circle-btn { background: #1e293b; border-color: #ffee55; }
+        .hidden-icon { display: none !important; }
+
+        .hamburger-btn {
+            position: fixed; top: 20px; right: 30px; z-index: 99999;
+            width: 50px; height: 50px; background: white;
+            border: 3px solid #ff758f; border-radius: 50%; cursor: pointer;
+            display: none; justify-content: center; align-items: center; font-size: 1.5rem; color: #ff758f;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .hamburger-btn { background: #1e293b; }
+
+        /* ==========================================================================
+           Welcome Screen
+           ========================================================================== */
+        .welcome-overlay-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.98) 100%);
+            display: flex; justify-content: center; align-items: center; z-index: 500000; 
+            transition: opacity 0.5s ease; padding: 20px;
+        }
+        .welcome-fancy-card {
+            background: #ffffff; padding: clamp(30px, 6vw, 50px) clamp(20px, 5vw, 40px); 
+            border-radius: 35px; text-align: center; border: 6px solid var(--purple-magic); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 550px; width: 100%; 
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .welcome-title-main { 
+            font-size: clamp(1.4rem, 5vw, 2.8rem); color: var(--purple-magic); 
+            font-weight: 900; margin-bottom: 10px; line-height: 1.3;
+        }
+        .welcome-desc-text { 
+            font-size: clamp(1.2rem, 4vw, 1.4rem); color: #475569; 
+            font-weight: 800; line-height: 1.7; margin-bottom: 35px; margin-top: 15px;
+        }
+        .welcome-start-action-btn {
+            background: linear-gradient(135deg, #1dd1a1, #10ac84); color: white; 
+            font-size: clamp(1.3rem, 5vw, 1.6rem); padding: 15px clamp(30px, 8vw, 50px); 
+            border-radius: 50px; font-weight: 900; border: none; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(29, 209, 161, 0.4); 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; justify-content: center; width: fit-content; align-self: center; margin: 0 auto; outline: none;
+            animation: pulseBtn 2s infinite;
+            -webkit-tap-highlight-color: transparent;
+            white-space: nowrap !important;
+        }
+        .welcome-start-action-btn:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 15px 30px rgba(29, 209, 161, 0.6); }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(29, 209, 161, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(29, 209, 161, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 209, 161, 0); }
+        }
+
+        /* ==========================================================================
+           2. Unified Nav Bar
+           ========================================================================== */
+        .top-nav-container { display: flex; justify-content: center; margin: 20px auto; padding: 0 20px; }
+        .top-nav-bar {
+            display: flex; justify-content: center; align-items: center; direction: rtl; /* For Arabic links */
+            padding: 15px 35px; background: linear-gradient(135deg, #fffefe 0%, #e0f2fe 100%); 
+            border-radius: 50px; box-shadow: 0 12px 30px rgba(37, 117, 252, 0.2); 
+            border: 4px solid #7dd3fc; gap: 15px; flex-wrap: wrap; transition: 0.4s ease;
+        }
+        [data-theme="dark"] .top-nav-bar { background: var(--card-bg); border-color: var(--purple-magic); }
+
+        .nav-btn {
+            background: var(--main-bg); color: var(--text-color); text-decoration: none;
+            padding: 12px 24px; border-radius: 50px; font-weight: 900; font-size: 1.1rem;
+            transition: all 0.3s; border: 3px solid #cbd5e1; display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            white-space: nowrap !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .nav-btn { background: var(--main-bg); border-color: #475569; }
+        
+        .nav-btn:nth-child(1) { border-color: #ff7675; color: #d63031; }
+        .nav-btn:nth-child(2) { border-color: #fdcb6e; color: #e17055; }
+        .nav-btn:nth-child(3) { border-color: #1dd1a1; color: #10ac84; }
+        .nav-btn:nth-child(4) { border-color: #0984e3; color: #74b9ff; }
+        .nav-btn:nth-child(5) { border-color: #a29bfe; color: #6c5ce7; }
+        .nav-btn:nth-child(6) { border-color: #9b59b6; color: #8e44ad; }
+
+        .nav-btn:hover, .nav-btn.active-page { transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .nav-btn.active-page { background: linear-gradient(135deg, #ff758f, #ff8fa3); color: white !important; border-color: #ff4d6d !important; }
+
+        /* ==========================================================================
+           Header Typography
+           ========================================================================== */
+        .header-title-wrapper {
+            text-align: center; margin: 15px auto; padding: 0 15px; max-width: 90%;
+        }
+        .header-title { 
+            font-size: clamp(1.3rem, 5vw, 3.8rem); 
+            font-weight: 900; 
+            color: var(--purple-magic);
+            margin-bottom: 5px; line-height: 1.3;
+            white-space: nowrap;
+        }
+        [data-theme="dark"] .header-title { color: #ffde43; }
+        
+        .header-subtitle { 
+            font-size: clamp(0.9rem, 3.5vw, 1.5rem); 
+            color: #2f3542; font-weight: 800; min-height: 35px;
+            white-space: nowrap;
+        }
+        [data-theme="dark"] .header-subtitle { color: #f8fafc; }
+
+        /* ==========================================================================
+           Modes Top Scroll Bar
+           ========================================================================== */
+        .modes-scroll-wrapper {
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            max-width: 1100px; margin: 25px auto; padding: 0 10px; position: relative;
+        }
+        
+        .scroll-arrow {
+            background: #ffffff; border: 3px solid var(--purple-magic); color: var(--purple-magic);
+            border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; font-weight: bold;
+            display: none; justify-content: center; align-items: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; z-index: 10;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .scroll-arrow:hover { transform: scale(1.1); background: var(--purple-light); color: white; }
+        [data-theme="dark"] .scroll-arrow { background: #1e293b; border-color: #ffee55; color: #ffee55; }
+        
+        .modes-container { 
+            display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; overflow: visible;
+            padding: 10px 5px; width: 100%;
+        }
+        .modes-container::-webkit-scrollbar { display: none; }
+        
+        @media (min-width: 992px) {
+            .modes-container { justify-content: center; }
+        }
+        
+        .mode-btn {
+            padding: 10px 16px; border-radius: 50px; font-size: 1.05rem; font-weight: 900;
+            cursor: pointer; border: 4px solid var(--card-bg); transition: 0.3s; 
+            background: #e2e8f0; color: #475569; box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            display: flex; align-items: center; justify-content: center; gap: 6px; flex: 0 0 auto;
+            white-space: nowrap !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .mode-btn { background: #334155; color: #cbd5e1; border-color: #1e293b; }
+        
+        .mode-explore.active { background: linear-gradient(135deg, #ff9f43, #ff5252); color: white; box-shadow: 0 8px 20px rgba(255,82,82,0.35); }
+        .mode-quiz.active { background: linear-gradient(135deg, #ec4899, #be185d); color: white; box-shadow: 0 8px 20px rgba(236,72,153,0.35); }
+        .mode-draw.active { background: linear-gradient(135deg, #10ac84, #01a3a4); color: white; box-shadow: 0 8px 20px rgba(16,172,132,0.35); }
+        .mode-fish.active { background: linear-gradient(135deg, #0284c7, #06b6d4); color: white; box-shadow: 0 8px 20px rgba(2,132,199,0.35); }
+        .mode-fruit.active { background: linear-gradient(135deg, #22c55e, #15803d); color: white; box-shadow: 0 8px 20px rgba(34,197,94,0.35); }
+        .mode-memory.active { background: radial-gradient(circle, #ff758f 0%, #ff4d6d 100%); color: white; box-shadow: 0 8px 20px rgba(255,117,143,0.35); }
+
+        /* ==========================================================================
+           3. Center Magic Board
+           ========================================================================== */
+        .magic-board {
+            background: var(--card-bg); border-radius: 40px; padding: clamp(20px, 4vw, 40px) clamp(10px, 3vw, 25px); max-width: 1000px;
+            margin: 0 auto 30px auto; border: 6px solid var(--purple-light); box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            min-height: 500px; display: flex; justify-content: center; align-items: center; text-align: center;
+        }
+
+        .video-circle {
+            width: clamp(160px, 40vw, 220px); height: clamp(160px, 40vw, 220px); border-radius: 50%; overflow: hidden;
+            border: 8px solid var(--purple-magic); margin: 0 auto 20px auto;
+            box-shadow: 0 15px 30px rgba(133,114,250,0.25); background: #8572fa; position: relative;
+        }
+        .video-element { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+        .video-hint { font-size: clamp(1.1rem, 3.5vw, 1.6rem); color: var(--text-color); font-weight: 900; }
+
+        .split-view { display: flex; justify-content: space-around; align-items: center; width: 100%; gap: 20px; }
+        .huge-letter { font-size: clamp(6rem, 15vw, 13rem); font-weight: 900; color: #ff4757; animation: bounceIn 0.5s ease-out; line-height: 1; }
+        .huge-word-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .huge-emoji { font-size: clamp(4rem, 10vw, 8.5rem); animation: floatAnim 3s infinite ease-in-out; }
+        .huge-word { font-size: clamp(1.8rem, 6vw, 4.2rem); color: #10ac84; font-weight: 900; letter-spacing: 2px;}
+
+        /* Stars Counter & Float Animations */
+        .stars-counter-quiz {
+            background: linear-gradient(135deg, #fff9db, #fff3bf); padding: 10px 30px; border-radius: 50px; 
+            display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; 
+            border: 4px solid #fcc419; font-size: 1.4rem; color: #e67e22; 
+            box-shadow: 0 6px 20px rgba(250,204,21,0.4); margin: 0 auto 20px auto; width: fit-content;
+        }
+        
+        .floating-plus-ten {
+            position: fixed; bottom: 20%; left: 50%; transform: translate(-50%, 50%) scale(0.5);
+            font-size: 3.5rem; font-weight: 900; color: #feca57;
+            z-index: 10000; pointer-events: none; opacity: 0;
+        }
+        .anim-fly-up { animation: flyUpAnim 1s ease-out forwards; }
+        @keyframes flyUpAnim {
+            0% { transform: translate(-50%, 50%) scale(0.5); opacity: 0; }
+            20% { transform: translate(-50%, 0) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -100px) scale(1); opacity: 0; }
+        }
+
+        .quiz-fancy-box {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3); border: 5px dashed #f472b6;
+            border-radius: 30px; padding: clamp(15px, 4vw, 30px) 20px; width: 100%; box-shadow: 0 15px 30px rgba(244,114,182,0.15);
+            position: relative; overflow: hidden;
+        }
+        [data-theme="dark"] .quiz-fancy-box { background: linear-gradient(135deg, #4c1d95, #312e81); border-color: #ec4899; }
+
+        .quiz-question-text { 
+            font-size: clamp(1rem, 4vw, 2.2rem); 
+            color: #831843; font-weight: 900; margin-bottom: 25px; 
+            z-index: 5; position: relative; white-space: nowrap; 
+        }
+        [data-theme="dark"] .quiz-question-text { color: #fbcfe8; }
+        
+        .quiz-target-letter {
+            display: inline-block; background: #ec4899; color: white; padding: 5px clamp(15px, 5vw, 35px);
+            border-radius: 20px; font-size: clamp(1.8rem, 6vw, 3.2rem); box-shadow: 0 10px 20px rgba(236,72,153,0.3); margin: 0 10px; border: 4px solid white;
+        }
+
+        .audio-replay-inline-btn {
+            background: linear-gradient(135deg, #38bdf8, #0284c7); color: white; border: 3px solid white;
+            padding: 10px 24px; font-size: clamp(1rem, 3vw, 1.25rem); font-weight: 900; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.4); transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;
+            margin: 15px auto 5px auto; z-index: 10; position: relative; justify-content: center;
+            white-space: nowrap !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .audio-replay-inline-btn:hover { transform: scale(1.04); background: linear-gradient(135deg, #0284c7, #0369a1); }
+
+        /* Drawing Mode */
+        .draw-container { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
+        .draw-header { 
+            font-size: clamp(1.1rem, 4vw, 2rem); 
+            color: #01a3a4; font-weight: 900; white-space: nowrap; 
+        }
+        .draw-target { 
+            color: #ff6b81; font-size: clamp(1.8rem, 6vw, 2.8rem); background: #ffeaa7; 
+            padding: 5px 25px; border-radius: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            transition: 0.3s; border: 3px solid #ff9f43; -webkit-tap-highlight-color: transparent;
+        }
+        .draw-target:hover { transform: scale(1.05); }
+        .drawing-board {
+            background: #f8fafc; border: 6px solid #cbd5e1; border-radius: 20px; max-width: 100%; height: auto;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05); touch-action: none;
+        }
+        .color-palette { display: flex; gap: 12px; margin-bottom: 5px; justify-content: center; width: 100%; flex-wrap: wrap; }
+        .color-bubble { width: clamp(35px, 10vw, 45px); height: clamp(35px, 10vw, 45px); border-radius: 50%; border: 4px solid white; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+        .color-bubble.active-color { transform: scale(1.2); border-color: var(--text-color); }
+
+        /* Fishing Mini Game */
+        .sea-area { 
+            background-image: url('images/sea-bg.jpg') !important; background-size: cover !important; 
+            background-repeat: no-repeat !important; background-position: center center !important; 
+            padding: 15px; border-radius: 25px; position: relative; min-height: 400px; height: auto; width: 100%; 
+            display: flex; flex-direction: column; justify-content: flex-start; border: 5px solid #0284c7; 
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.4); overflow: hidden; z-index: 1; 
+        }
+        .fish-top-panel-container { 
+            display: flex; align-items: center; justify-content: center; gap: 15px; z-index: 5; 
+            background: none !important; border: none !important; box-shadow: none !important; 
+            padding: 8px 30px; border-radius: 20px; margin: 0 auto 15px auto; 
+            max-width: 95%; direction: ltr; /* English LTR */
+        }
+        .correct-word-display {
+            font-size: clamp(2.2rem, 9vw, 3.5rem); font-weight: 900; color: #fff;
+            display: flex; align-items: center; gap: 5px; justify-content: center; text-transform: uppercase;
+        }
+        .blank-space { color: #ffde43; }
+        
+        .fish-swim-pool { 
+            position: relative; width: 100%; min-height: 350px; height: 100%; z-index: 2; overflow: hidden;
+        }
+        .fish-wrapper { 
+            position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; white-space: nowrap; transition: transform 0.2s; 
+            animation: swimHorizontal linear infinite; right: -150px; -webkit-tap-highlight-color: transparent;
+        }
+        .fish-wrapper:hover { transform: scale(1.15); z-index: 99; }
+        .fish-letter-label { 
+            font-size: clamp(2rem, 6vw, 3rem); font-weight: 900; color: #ffffff; 
+            margin-bottom: -5px; animation: floatAnim 2s infinite ease-in-out; z-index: 5; text-shadow: 2px 2px 0px #0284c7;
+        }
+        .fish-image-render { width: clamp(90px, 25vw, 135px); height: auto; object-fit: contain; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
+        
+        @keyframes swimHorizontal { 0% { right: -150px; } 100% { right: 120%; } }
+
+        /* Fruit Catch Game Area */
+        .tree-area { 
+            background-image: url('images/farm-bg.png'); background-size: cover; background-position: center; 
+            padding: 25px; border-radius: 25px; position: relative; display: flex; flex-direction: column; 
+            align-items: center; min-height: 440px; height: auto; border: 4px solid #bbf7d0; 
+            box-shadow: inset 0 -20px 20px rgba(21,128,61,0.2); overflow: hidden; 
+        }
+        .fruit-top-word-panel { 
+            background: rgba(255, 255, 255, 0.95); padding: 12px clamp(20px, 5vw, 45px); border-radius: 25px; 
+            border: 4px solid #22c55e; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 5; margin: 10px auto 25px auto; 
+            display: inline-block; min-width: 180px; text-align: center; direction: ltr; /* English LTR */
+        }
+        
+        .tree-canopy { position: relative; width: 100%; height: clamp(140px, 35vw, 180px); z-index: 2; margin-top: 15px; }
+        .apple-btn { 
+            position: absolute; background: #ef4444; color: white; border: 4px solid white; 
+            width: clamp(45px, 12vw, 65px); height: clamp(45px, 12vw, 65px); 
+            border-radius: 50%; font-size: clamp(1.4rem, 4.5vw, 2.2rem); font-weight: 900; display: flex; justify-content: center; 
+            align-items: center; cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.2); transition: 0.2s; z-index: 4; 
+            -webkit-tap-highlight-color: transparent; padding: 0; line-height: 1;
+        }
+        .apple-btn::before { content: '🍃'; position: absolute; top: -14px; font-size: clamp(0.7rem, 2.5vw, 1.1rem); }
+        .apple-btn:hover { transform: scale(1.1); background: #dc2626; }
+        .apple-btn.falling-down { animation: appleDropToBasket 0.7s forwards cubic-bezier(0.6, -0.28, 0.735, 0.045); pointer-events: none; z-index: 10; }
+        
+        @keyframes appleDropToBasket { 
+            0% { transform: translateY(0) scale(1); opacity: 1; } 
+            80% { opacity: 0.9; } 
+            100% { transform: translateY(clamp(160px, 45vw, 270px)) scale(0.6); opacity: 0; } 
+        }
+        .basket-container-wrapper { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; z-index: 2; }
+        .basket-zone-image { width: clamp(130px, 35vw, 220px); height: auto; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); transition: transform 0.2s; }
+        .basket-zone-image.basket-shake { animation: shakeBasketAnim 0.4s ease-in-out; }
+        @keyframes shakeBasketAnim { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-15px) rotate(-5deg); } 75% { transform: translateX(15px) rotate(5deg); } }
+
+        /* Magic Memory Game */
+        #view-memory { margin-bottom: 0; }
+        .memory-game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 2.5vw, 12px); max-width: 520px; margin: 0 auto; width: 100%; }
+        .memory-card { aspect-ratio: 1; perspective: 1000px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+        .memory-card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; justify-content: center; align-items: center; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card-front { background: linear-gradient(135deg, #ff758f, #ff4d6d); color: white; font-size: clamp(1.5rem, 6vw, 2.8rem); font-weight: bold; }
+        .card-back { background: var(--card-bg); transform: rotateY(180deg); font-size: clamp(1.4rem, 5vw, 2.2rem); font-weight: 900; color: var(--text-color); }
+        .memory-card.card-matched { cursor: default; pointer-events: none; }
+        .memory-card.card-matched .card-inner { transform: rotateY(180deg) scale(1.05); }
+        .memory-card.card-matched .card-back { background: linear-gradient(135deg, #a7f3d0, #10b981) !important; color: white !important; border-color: #047857 !important; }
+        .card-wobble-intro { animation: cardWobbleIntroAnim 1s ease-in-out 2 alternate; }
+        @keyframes cardWobbleIntroAnim { 0% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.04) rotate(-5deg); } 100% { transform: scale(1) rotate(5deg); } }
+
+        /* English Grid Bubbles */
+        .letters-grid { 
+            display: flex; flex-wrap: wrap;
+            gap: 20px; max-width: 1050px; margin: 0 auto; padding: 0 20px; justify-content: center; 
+        }
+        .letter-bubble {
+            width: 110px; height: 110px;
+            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 2.6rem; font-weight: 900; color: #1e293b; cursor: pointer;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1), 0 10px 15px rgba(0,0,0,0.08);
+            transition: all 0.2s; border: 3px solid rgba(255,255,255,0.9);
+            -webkit-tap-highlight-color: transparent; 
+        }
+        [data-theme="dark"] .letter-bubble { color: #000; }
+        .letter-bubble:hover { transform: scale(1.15) translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.15); z-index: 10; }
+        
+        .letter-bubble:nth-child(4n+1) { background: radial-gradient(circle at 30% 30%, #ffedd5, #fdba74, #f97316); }
+        .letter-bubble:nth-child(4n+2) { background: radial-gradient(circle at 30% 30%, #e0f2fe, #7dd3fc, #0284c7); }
+        .letter-bubble:nth-child(4n+3) { background: radial-gradient(circle at 30% 30%, #dcfce7, #86efac, #16a34a); }
+        .letter-bubble:nth-child(4n+4) { background: radial-gradient(circle at 30% 30%, #fce7f3, #f472b6, #db2777); }
+
+        /* Alerts and Modals */
+        .custom-alert-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 100000; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .custom-alert-overlay.show { opacity: 1; pointer-events: all; }
+        .custom-alert-box { background: var(--card-bg); padding: clamp(20px, 6vw, 40px); border-radius: 30px; text-align: center; border: 6px solid #ef4444; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.5); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-width: 90%; width: 400px; }
+        .custom-alert-overlay.show .custom-alert-box { transform: scale(1); }
+        .alert-emoji { font-size: clamp(3rem, 10vw, 4.5rem); margin-bottom: 12px; }
+        .alert-text { font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 900; color: #ef4444; margin-bottom: 20px; white-space: normal; line-height: 1.4; }
+        .alert-btn { background: #ef4444; color: white; font-size: 1.3rem; padding: 10px 30px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap !important; }
+
+        .treasure-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle, #6366f1 0%, #312e81 100%); z-index: 200000; display: none; justify-content: center; align-items: center; flex-direction: column; overflow: hidden; }
+        .treasure-box { font-size: clamp(6rem, 18vw, 10rem); animation: bounceIn 1s infinite alternate; cursor: pointer; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4)); z-index: 10; transition: transform 0.5s ease; -webkit-tap-highlight-color: transparent; }
+        .treasure-box.opened { animation: none; transform: scale(1.2); font-size: clamp(8rem, 22vw, 12rem); }
+        .win-title { font-size: clamp(1.1rem, 4vw, 3rem); color: #ffee55; font-weight: 900; margin-bottom: 20px; text-align: center; z-index: 10; padding: 0 15px; white-space: nowrap; }
+        .celebration-element { position: absolute; font-size: 2.5rem; animation: floatUp 4s infinite linear; opacity: 0.85; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+        /* ==========================================================================
+           Luxury Footer (Preserved Arabic Layout in LTR context)
+           ========================================================================== */
+        .luxury-footer { 
+            background: var(--dark-blue); color: #a4b0be; padding: 40px 20px; text-align: center; 
+            position: relative; border-top: 6px dashed #ffee55; 
+            margin-top: 120px; direction: rtl; /* Important to keep the Arabic text layout nice */
+            border-radius: 35px 35px 0 0; transition: background 0.5s ease, color 0.5s ease; 
+        }
+        .footer-grid-layout { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; text-align: right; align-items: start; }
+        .footer-about { padding-left: 20px; border-left: 2px solid #3d4a5d; }
+        .footer-about h2, .footer-info h3 { color: #ffee55 !important; font-size: 1.3rem !important; font-weight: 900 !important; margin-bottom: 10px !important; text-align: right; }
+        .footer-about p { font-size: 1.05rem; line-height: 1.6; font-weight: bold; color: #cbd5e1; }
+        .footer-info p { font-size: 1.05rem; color: #ffffff; font-weight: bold; display: flex; align-items: center; gap: 8px; justify-content: flex-start; }
+        .footer-info a { color: #00d2d3; text-decoration: none; transition: 0.3s; white-space: nowrap; }
+        .footer-info a:hover { color: #54a0ff; }
+        .footer-separator { height: 2px; background: linear-gradient(to right, transparent, #576574, transparent); margin: 20px 0 15px 0; }
+        .signature { color: #ffffff; font-size: clamp(0.75rem, 3.5vw, 1.1rem); font-weight: bold; white-space: nowrap; margin-bottom: 0; }
+        .hidden { display: none !important; }
+        @keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        /* Responsive Layout Grid */
+        @media (max-width: 768px) {
+            .hamburger-btn { display: flex; }
+            .top-nav-bar {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background: var(--card-bg); z-index: 9999; flex-direction: column;
+                justify-content: flex-start; align-items: stretch; padding: 90px 25px 30px 25px;
+                border-radius: 0; border: none; border-left: 5px solid #ff758f;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.2); gap: 20px;
+            }
+            .top-nav-bar.mobile-open { right: 0; }
+            .top-nav-container { margin: 0; }
+            .nav-btn { justify-content: center; font-size: 1.2rem; }
+            
+            .modes-container { 
+                justify-content: flex-start; 
+                display: flex; 
+                flex-wrap: nowrap; 
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                gap: 8px; 
+                padding: 10px 5px;
+            }
+            .modes-scroll-wrapper { margin: 15px auto; gap: 3px; }
+            .scroll-arrow { display: flex; width: 35px; height: 35px; font-size: 1.1rem; flex-shrink: 0; }
+            
+            .mode-btn { 
+                width: auto; 
+                min-width: max-content; 
+                flex: 0 0 auto; 
+                padding: 10px 18px; 
+                font-size: clamp(0.9rem, 3.5vw, 1.05rem); 
+                box-sizing: border-box; 
+                text-align: center;
+                white-space: nowrap !important;
+            }
+            
+            .magic-board { min-height: 140px; padding: 15px; margin: 0 10px 20px 10px; border-radius: 25px; }
+            #result-wrapper.split-view { flex-direction: row; justify-content: center; align-items: center; gap: 15px; }
+            .huge-letter { font-size: 4.5rem; }
+            .huge-emoji { font-size: 3rem; }
+            .huge-word { font-size: clamp(1.2rem, 5vw, 1.8rem); white-space: nowrap; }
+            
+            .quiz-fancy-box { padding: 15px 10px; width: 95%; margin: 0 auto; box-sizing: border-box; border-radius: 20px; }
+            .quiz-question-text { font-size: clamp(0.9rem, 4vw, 1.2rem); margin-bottom: 10px; }
+            .quiz-target-letter { padding: 2px 15px; font-size: 1.8rem; }
+            .stars-counter-quiz { font-size: clamp(0.9rem, 4vw, 1.1rem); padding: 6px 15px; white-space: nowrap; margin-bottom: 15px; }
+            .draw-header { font-size: clamp(0.9rem, 4vw, 1.4rem); }
+            
+            .letters-grid { display: flex; flex-wrap: wrap; gap: 12px; padding: 0 10px; justify-content: center; }
+            .letter-bubble { width: calc(25% - 9px); height: auto; aspect-ratio: 1; font-size: 2rem; }
+            
+            .controls-wrapper { top: 20px; left: 30px; gap: 8px; }
+            .control-circle-btn { width: 45px; height: 45px; font-size: 1.1rem; border-width: 2px; }
+            .hamburger-btn { width: 45px; height: 45px; font-size: 1.4rem; top: 20px; right: 30px; }
+            
+            .header-title-wrapper { padding: 0 5px; margin: 10px auto; width: 100%; overflow: hidden; padding-top: 75px !important; }
+            .header-title { font-size: clamp(1.1rem, 4.5vw, 2.2rem); }
+            .header-subtitle { font-size: clamp(0.85rem, 3.5vw, 1.2rem); }
+
+            .welcome-fancy-card { padding: 25px 15px; width: 92%; max-width: 100%; }
+            .welcome-title-main { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+            .welcome-desc-text { font-size: clamp(0.95rem, 4vw, 1.2rem); }
+            .welcome-start-action-btn { font-size: clamp(0.9rem, 4vw, 1.3rem); padding: 12px 20px; }
+            
+            .audio-replay-inline-btn { font-size: clamp(0.85rem, 3.5vw, 1rem); padding: 8px 15px; }
+            .alert-text { font-size: clamp(0.95rem, 4vw, 1.2rem); white-space: normal; }
+            .custom-alert-box { width: 90%; padding: 20px 15px; }
+            .win-title { font-size: clamp(1rem, 4.5vw, 1.5rem); padding: 0 5px; }
+            
+            .treasure-box { font-size: clamp(4rem, 15vw, 8rem); }
+            .treasure-box.opened { font-size: clamp(5rem, 18vw, 10rem); }
+            
+            .footer-grid-layout { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .footer-about { padding-left: 0; border-left: none; border-bottom: 2px dashed #3d4a5d; padding-bottom: 12px; }
+            .footer-about h2, .footer-info h3 { text-align: center !important; font-size: 1.1rem !important; }
+            .footer-about p { font-size: 0.88rem; text-align: center; line-height: 1.5; }
+            
+            .footer-info p { 
+                font-size: 0.88rem; 
+                justify-content: center; 
+                display: flex; 
+                align-items: center; 
+                gap: 6px; 
+                white-space: nowrap; 
+            }
+            .luxury-footer { padding: 20px 12px 10px 12px; margin-top: 60px; border-radius: 20px 20px 0 0; }
+
+            /* --- التعديلات المضافة لحل مشكلة خروج النص في الهاتف --- */
+            .header-title,
+            .header-subtitle,
+            .quiz-question-text,
+            .win-title,
+            .draw-header {
+                white-space: normal !important;
+                line-height: 1.5 !important;
+                text-align: center;
+            }
+            
+            .quiz-target-letter {
+                display: inline-block;
+                margin-top: 8px;
+            }
+            /* ------------------------------------------------------ */
+        }
+
+        /* ==========================================================================
+           MODIFICATIONS FOR LAPTOP SCREEN (min-width: 769px)
+           ========================================================================== */
+        @media (min-width: 769px) {
+            /* 1. Remove horizontal scrollbar, hide navigation arrows, and keep buttons side-by-side */
+            .modes-scroll-wrapper .scroll-arrow {
+                display: none !important;
+            }
+            .modes-container {
+                flex-wrap: nowrap !important;
+                justify-content: center !important;
+                gap: 8px !important;
+                overflow: visible !important;
+                width: 100% !important;
+            }
+            /* 2. Make mode buttons slightly smaller to fit elegantly on laptop screen without scrolling */
+            .mode-btn {
+                padding: 8px 12px !important;
+                font-size: 0.88rem !important;
+                border-width: 3px !important;
+                flex: 0 1 auto !important;
+            }
+            /* 3. Center the welcome screen and the green action button perfectly in the middle */
+            .welcome-fancy-card {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 40px 30px !important;
+            }
+            .welcome-start-action-btn {
+                display: inline-flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin: 20px auto 0 auto !important;
+                align-self: center !important;
+                width: fit-content !important;
+                font-size: 1.4rem !important;
+                padding: 12px 40px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-overlay-screen" id="welcome-overlay">
+        <div class="welcome-fancy-card">
+            <h1 class="welcome-title-main">Welcome to Letters Island!</h1>
+            <p class="welcome-desc-text">Click the magic button below to activate the musical melodies, hear our wonderful welcoming greeting, and embark on your English letters adventure!</p>
+            <button class="welcome-start-action-btn" onclick="closeWelcomeOverlay()">Start The Adventure Now 🚀</button>
+        </div>
+    </div>
+
+    <div class="controls-wrapper">
+        <button id="music-control-btn" class="control-circle-btn" aria-label="Toggle Music">
+            <span class="music-icon-on">🎵</span>
+            <span class="music-icon-off hidden-icon">🔇</span>
+        </button>
+
+        <button id="theme-toggle-btn" class="control-circle-btn" aria-label="Toggle Dark Mode">
+            <span class="theme-icon-to-dark">🌙</span>
+            <span class="theme-icon-to-light hidden-icon">☀️</span>
+        </button>
+    </div>
+
+    <button id="hamburger-btn" class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
+
+    <audio id="audio-speaker"></audio>
+    <audio id="audio-instruction"></audio>
+    <audio id="bg-music" src="audio/background-music.mp3" loop></audio>
+    <audio id="pop-sound" src="audio/pop.mp3" preload="auto"></audio>
+    <audio id="try-again-sound" src="audio/english-try-again.mp3" preload="auto"></audio> 
+    <audio id="wrong-sound" src="audio/wrong.mp3" preload="auto"></audio> 
+    <audio id="win" src="audio/win.mp3" preload="auto"></audio> 
+    <audio id="gift-open" src="audio/gift-open.mp3" preload="auto"></audio>
+    <audio id="child-cheer-yay" src="audio/english-cheer-yay.mp3" preload="auto"></audio>
+    <audio id="child-win" src="audio/child-win.mp3" preload="auto"></audio>
+    
+    <audio id="sea-ambient" src="audio/sea-waves.mp3" loop preload="auto"></audio>
+    <audio id="apple-drop-sound" src="audio/apple-drop.mp3" preload="auto"></audio>
+
+    <div id="plus-ten-anim" class="floating-plus-ten">+10 ⭐</div>
+
+    <div class="top-nav-container">
+        <nav class="top-nav-bar" id="top-nav-bar">
+            <a href="index.html" class="nav-btn">الرئيسية 🏠</a>
+            <a href="arabic.html" class="nav-btn">الحروف العربية 🎈</a>
+            <a href="english.html" class="nav-btn active-page">الحروف الإنجليزية 🔤</a>
+            <a href="numbers.html" class="nav-btn">الأرقام السحرية 🔢</a>
+            <a href="colors.html" class="nav-btn">الأشكال والألوان 🎨</a>
+            <a href="worksheets.html" class="nav-btn">أوراق العمل التعليمية pdf 📄</a>
+        </nav>
+    </div>
+
+    <header class="header-title-wrapper">
+        <h1 class="header-title">English Letters Island</h1>
+        <p class="header-subtitle" id="main-subtitle">Discover the wonderful sounds of English letters and words!</p>
+        <script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+crossorigin="anonymous"></script>
+    </header>
+
+    <div class="modes-scroll-wrapper">
+        <button class="scroll-arrow left-arrow" onclick="document.getElementById('modes-container').scrollBy({left: -150, behavior: 'smooth'})" title="Scroll Left">&#10094;</button>
+        <div class="modes-container" id="modes-container" dir="ltr">
+            <button class="mode-btn mode-explore active" onclick="switchMode('explore')"><span>🎈</span> Letter Adventure</button>
+            <button class="mode-btn mode-quiz" onclick="switchMode('quiz')"><span>🧠</span> Brain Challenge</button>
+            <button class="mode-btn mode-draw" onclick="switchMode('draw')"><span>🎨</span> Draw The Letter</button>
+            <button class="mode-btn mode-fish" onclick="switchMode('fish')"><span>🎣</span> Fishing Game</button>
+            <button class="mode-btn mode-fruit" onclick="switchMode('fruit')"><span>🍎</span> Fruit Picker</button>
+            <button class="mode-btn mode-memory" onclick="switchMode('memory')"><span>🧠</span> Magic Memory</button>
+        </div>
+        <button class="scroll-arrow right-arrow" onclick="document.getElementById('modes-container').scrollBy({left: 150, behavior: 'smooth'})" title="Scroll Right">&#10095;</button>
+    </div>
+
+    <main class="magic-board">
+        
+        <div id="view-explore" class="mode-view">
+            <div id="video-wrapper">
+                <div class="video-circle">
+                    <video id="mascot-video" playsinline class="video-element">
+                        <source src="video/english-welcome-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <h2 class="video-hint">Click on any letter bubble below to discover its magical word secret!</h2>
+            </div>
+            
+            <div id="result-wrapper" class="split-view hidden">
+                <div class="huge-word-container">
+                    <div class="huge-emoji" id="res-emoji">🍎</div>
+                    <div class="huge-word" id="res-word">APPLE</div>
+                </div>
+                <div class="huge-letter" id="res-letter">A</div>
+            </div>
+        </div>
+
+        <div id="view-quiz" class="mode-view hidden" style="position: relative; width: 100%;">
+            <div class="stars-counter-quiz" id="stars-display">⭐ Stars: <span id="score-val">0</span>/30</div>
+            
+            <div class="quiz-fancy-box">
+                <h2 class="quiz-question-text">Where is the magic bubble for letter: <span class="quiz-target-letter" id="quiz-target">?</span></h2>
+                <button class="audio-replay-inline-btn" onclick="triggerPopAndPlayTarget()">🔊 Listen Again</button>
+            </div>
+        </div>
+
+        <div id="view-draw" class="mode-view hidden">
+            <div class="draw-container">
+                <h2 class="draw-header">Trace and draw the letter: 
+                    <span class="draw-target" id="draw-target-letter" onclick="triggerPopAndPlayTargetDraw()" title="Listen to letter">
+                        A <span style="font-size: 1.3rem;">🔊</span>
+                    </span>
+                </h2>
+                <div class="color-palette">
+                    <div class="color-bubble active-color" style="background: #8572fa;" onclick="changePenColor('#8572fa', this)"></div>
+                    <div class="color-bubble" style="background: #ff4757;" onclick="changePenColor('#ff4757', this)"></div>
+                    <div class="color-bubble" style="background: #1dd1a1;" onclick="changePenColor('#1dd1a1', this)"></div>
+                    <div class="color-bubble" style="background: #2575fc;" onclick="changePenColor('#2575fc', this)"></div>
+                    <div class="color-bubble" style="background: #ffa502;" onclick="changePenColor('#ffa502', this)"></div>
+                </div>
+                <canvas id="drawing-board" width="360" height="280" class="drawing-board"></canvas>
+                <div class="draw-controls" style="display:flex; gap:10px;">
+                    <button style="padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer; -webkit-tap-highlight-color: transparent;" onclick="triggerPopAndClear()">🗑️ Clear Board</button>
+                    <button style="padding:10px 20px; background:#10ac84; color:white; border:none; border-radius:20px; font-weight:bold; cursor:pointer; -webkit-tap-highlight-color: transparent;" onclick="checkDrawing()">✨ Check Drawing</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-fish" class="mode-view hidden" style="width: 100%;">
+            <div class="quiz-fancy-box" style="background: transparent; border-color: #0284c7; padding: 5px;">
+                <button class="audio-replay-inline-btn" onclick="triggerPopAndPlayTarget()">🔊 Listen To Word</button>
+                <div class="sea-area">
+                    <div id="fish-game-content-container" class="hidden">
+                        <div class="fish-top-panel-container">
+                            <span style="font-size: 3rem;" id="fish-emoji">🍎</span>
+                            <div id="fish-word-display" class="correct-word-display">
+                                <span class="blank-space">_</span><span id="fish-word-rest">PPLE</span>
+                            </div>
+                        </div>
+                        <div class="fish-swim-pool" id="fish-choices-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-fruit" class="mode-view hidden" style="width: 100%;">
+            <div class="quiz-fancy-box" style="background: transparent; border-color: #16a34a; padding: 5px;">
+                <button class="audio-replay-inline-btn" onclick="triggerPopAndPlayTarget()">🔊 Listen To Word</button>
+                <div class="fruit-top-word-panel">
+                    <div id="fruit-word-display" class="correct-word-display" style="color: #15803d; font-size: clamp(2.2rem, 8vw, 4rem);">
+                        <span class="blank-space" style="color: #ec4899;">_</span><span id="fruit-word-rest">PPLE</span>
+                    </div>
+                </div>
+                <div class="tree-area">
+                    <div class="tree-canopy" id="fruit-tree-apples"></div>
+                    <div class="basket-container-wrapper">
+                        <img src="images/basket.png" id="basket-zone-element" class="basket-zone-image" alt="Basket">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-memory" class="mode-view hidden" style="width: 100%;">
+            <div class="quiz-fancy-box" style="background: linear-gradient(135deg, #fef2f2, #fff1f2); border-color: #ff758f;">
+                <div class="memory-game-grid" id="memory-game-grid"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <section class="letters-grid" id="letters-grid"></section>
+
+    <div class="custom-alert-overlay" id="wrong-modal">
+        <div class="custom-alert-box">
+            <div class="alert-emoji">💡</div>
+            <h3 class="alert-text" id="wrong-modal-text">Oops! Try again, little champ!</h3>
+            <button class="alert-btn" onclick="closeModal()">Let's Try Again 💪</button>
+        </div>
+    </div>
+
+    <div class="treasure-screen" id="treasure-screen">
+        <h1 class="win-title" id="treasure-title">🎉 Open the Magical Chest! 🎉</h1>
+        <div class="treasure-box" id="treasure-box-element" onclick="openTreasure(this)">🎁</div>
+        <button class="nav-btn hidden" id="replay-btn" onclick="handleReplay()" style="margin-top: 30px; font-size: 1.5rem; z-index: 10; padding: 12px 35px; cursor:pointer;">Play Again 🚀</button>
+    </div>
+
+    <footer class="luxury-footer">
+        <div class="footer-grid-layout">
+            <div class="footer-about">
+                <h2>عن منصتنا</h2>
+                <p>منصة "عالم جزر المعرفة السحري" تم تطويرها بواسطة فدوى ماجد أبو حفيظة وهي منصة تفاعلية مبتكرة مصممة لأطفال الروضة والتعليم المبكر، تدمج المرح بالتعلم عبر رسومات ومؤثرات صوتية ومحتوى هادف لتأسيس جيل مبدع ومحب للعلم.</p>
+            </div>
+
+            <div class="footer-info">
+                <h3>تواصلوا معنا للإستفسارات والدعم</h3>
+                <p>✉️ <a href="mailto:magicalworld.knowledgeislands@gmail.com">magicalworld.knowledgeislands@gmail.com</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-separator"></div>
+        <p class="signature">جميع الحقوق محفوظة 2026 © عالم جزر المعرفة السحري</p>
+    </footer>
+
+    <script>
+        // ENGLISH LETTERS DATA
+        const lettersData = [
+            { l: 'A', word: 'APPLE', emoji: '🍎' }, { l: 'B', word: 'BANANA', emoji: '🍌' },
+            { l: 'C', word: 'CAT', emoji: '🐱' }, { l: 'D', word: 'DOG', emoji: '🐶' },
+            { l: 'E', word: 'EGG', emoji: '🥚' }, { l: 'F', word: 'FISH', emoji: '🐟' },
+            { l: 'G', word: 'GRAPES', emoji: '🍇' }, { l: 'H', word: 'HORSE', emoji: '🐴' },
+            { l: 'I', word: 'ICE CREAM', emoji: '🍦' }, { l: 'J', word: 'JUICE', emoji: '🧃' },
+            { l: 'K', word: 'KITE', emoji: '🪁' }, { l: 'L', word: 'LION', emoji: '🦁' },
+            { l: 'M', word: 'MONKEY', emoji: '🐒' }, { l: 'N', word: 'NEST', emoji: '🪹' },
+            { l: 'O', word: 'ORANGE', emoji: '🍊' }, { l: 'P', word: 'PENGUIN', emoji: '🐧' },
+            { l: 'Q', word: 'QUEEN', emoji: '👸' }, { l: 'R', word: 'RABBIT', emoji: '🐇' },
+            { l: 'S', word: 'SUN', emoji: '☀️' }, { l: 'T', word: 'TREE', emoji: '🌳' },
+            { l: 'U', word: 'UMBRELLA', emoji: '🌂' }, { l: 'V', word: 'VAN', emoji: '🚐' },
+            { l: 'W', word: 'WATERMELON', emoji: '🍉' }, { l: 'X', word: 'X-RAY', emoji: '🩻' },
+            { l: 'Y', word: 'YO-YO', emoji: '🪀' }, { l: 'Z', word: 'ZEBRA', emoji: '🦓' }
+        ];
+
+        let currentMode = 'explore'; let score = 0; let targetIndex = 0;
+        let fishTargetIndex = 0; let fruitTargetIndex = 0;
+        let canvasPainted = false; let currentPenColor = '#8572fa';
+        let firstCard = null, secondCard = null; let lockBoard = false; let matchedPairsCount = 0;
+        let isWelcomeAudioPlayed = false;
+        let fishFruitFirstLoad = true;
+
+        const grid = document.getElementById('letters-grid');
+        lettersData.forEach((item, index) => {
+            const btn = document.createElement('div'); btn.className = 'letter-bubble';
+            btn.innerText = item.l; 
+            btn.onclick = () => handleLetterClick(index);
+            grid.appendChild(btn);
+        });
+
+        const speaker = document.getElementById('audio-speaker');
+        const instructionSpeaker = document.getElementById('audio-instruction');
+        const tryAgainSound = document.getElementById('try-again-sound'); 
+        const wrongSound = document.getElementById('wrong-sound');         
+        const winSound = document.getElementById('win');         
+        const bgMusic = document.getElementById('bg-music');
+        const popSound = document.getElementById('pop-sound');
+        const giftOpenSound = document.getElementById('gift-open');
+        const childCheerYaySound = document.getElementById('child-cheer-yay');
+        const childWinSound = document.getElementById('child-win');
+        const mascotVideo = document.getElementById('mascot-video');
+        const seaAmbientSound = document.getElementById('sea-ambient');
+        const appleDropSound = document.getElementById('apple-drop-sound');
+
+        function toggleMobileMenu() { document.getElementById('top-nav-bar').classList.toggle('mobile-open'); }
+        function closeMobileMenu() { document.getElementById('top-nav-bar').classList.remove('mobile-open'); }
+        function triggerImmediatePop() { if (popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if(!isWelcomeAudioPlayed) {
+                playInstructionAudio('english-welcome-msg.mp3');
+                isWelcomeAudioPlayed = true;
+            }
+
+            const runAudioFallback = () => {
+                if (instructionSpeaker.paused && isWelcomeAudioPlayed && instructionSpeaker.src.includes('english-welcome-msg.mp3')) {
+                    playInstructionAudio('english-welcome-msg.mp3');
+                }
+                document.removeEventListener('click', runAudioFallback);
+                document.removeEventListener('touchstart', runAudioFallback);
+            };
+            document.addEventListener('click', runAudioFallback);
+            document.addEventListener('touchstart', runAudioFallback);
+
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const iconToDark = document.querySelector('.theme-icon-to-dark');
+            const iconToLight = document.querySelector('.theme-icon-to-light');
+            if (localStorage.getItem('theme-choice') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(iconToDark && iconToLight) { iconToDark.classList.add('hidden-icon'); iconToLight.classList.remove('hidden-icon'); }
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation(); playPopSound();
+                    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme-choice', 'light');
+                        iconToDark.classList.remove('hidden-icon');  
+                        iconToLight.classList.add('hidden-icon');    
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme-choice', 'dark');
+                        iconToDark.classList.add('hidden-icon');     
+                        iconToLight.classList.remove('hidden-icon');   
+                    }
+                });
+            }
+
+            const musicControlBtn = document.getElementById('music-control-btn');
+            const iconOn = document.querySelector('.music-icon-on');
+            const iconOff = document.querySelector('.music-icon-off');
+
+            if (musicControlBtn && bgMusic) {
+                musicControlBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); triggerImmediatePop(); 
+                    if (bgMusic.muted) {
+                        bgMusic.muted = false; iconOn.classList.remove('hidden-icon'); iconOff.classList.add('hidden-icon');
+                    } else {
+                        bgMusic.muted = true; iconOn.classList.add('hidden-icon'); iconOff.classList.remove('hidden-icon');
+                    }
+                });
+            }
+        });
+
+        function closeWelcomeOverlay() {
+            triggerImmediatePop();
+            instructionSpeaker.pause(); instructionSpeaker.src = ""; 
+            
+            document.getElementById('welcome-overlay').style.opacity = '0';
+            setTimeout(() => { document.getElementById('welcome-overlay').classList.add('hidden'); }, 500);
+
+            if (bgMusic) { bgMusic.muted = false; bgMusic.volume = 0.06; bgMusic.play().catch(()=>{}); }
+            if (mascotVideo) { mascotVideo.muted = false; mascotVideo.currentTime = 0; mascotVideo.play().catch(()=>{}); }
+        }
+
+        document.addEventListener('mousemove', handleSparkles);
+        document.addEventListener('touchmove', (e) => handleSparkles(e.touches[0]));
+
+        function handleSparkles(e) {
+            if (Math.random() > 0.88) { 
+                const particle = document.createElement('div'); particle.className = 'magic-sparkle-particle';
+                particle.style.left = e.clientX + 'px'; particle.style.top = e.clientY + 'px';
+                const colors = ['#ffee55', '#ff6b81', '#1dd1a1', '#00d2d3', '#a29bfe'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(particle); setTimeout(() => { particle.remove(); }, 800);
+            }
+        }
+
+        function switchMode(mode) {
+            currentMode = mode; triggerImmediatePop(); closeMobileMenu();
+            if(seaAmbientSound) seaAmbientSound.pause();
+            
+            instructionSpeaker.pause(); instructionSpeaker.onended = null;
+
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.mode-${mode}`).classList.add('active');
+            document.querySelectorAll('.mode-view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${mode}`).classList.remove('hidden');
+
+            const subtitle = document.getElementById('main-subtitle');
+            const lettersGrid = document.getElementById('letters-grid');
+
+            if (['draw', 'fish', 'fruit', 'memory'].includes(mode)) {
+                lettersGrid.classList.add('hidden');
+            } else {
+                lettersGrid.classList.remove('hidden');
+            }
+
+            if(mode === 'explore') {
+                subtitle.innerText = "Discover the wonderful sounds of English letters and words!";
+                document.getElementById('video-wrapper').classList.remove('hidden'); document.getElementById('result-wrapper').classList.add('hidden');
+                if (mascotVideo) { mascotVideo.currentTime = 0; mascotVideo.play().catch(()=>{}); }
+            } else if (mode === 'quiz') {
+                subtitle.innerText = "Collect 30 magic stars and unlock the surprise treasure chest! 🎁"; 
+                initQuiz();
+            } else if (mode === 'draw') {
+                subtitle.innerText = "Trace the displayed letter accurately to open the colorful prize box!";
+                playInstructionAudio('english-guide-drawing.mp3'); initDraw();
+            } else if (mode === 'fish') {
+                subtitle.innerText = "Catch the correct swimming fish to complete the missing spelling letter! 🎣";
+                fishFruitFirstLoad = true; 
+                document.getElementById('fish-game-content-container').classList.add('hidden');
+                playInstructionAudio('english-guide-fishing.mp3');
+                
+                instructionSpeaker.onended = () => {
+                    if(seaAmbientSound) { seaAmbientSound.currentTime = 0; seaAmbientSound.volume = 0.2; seaAmbientSound.play().catch(()=>{}); }
+                    document.getElementById('fish-game-content-container').classList.remove('hidden');
+                    initFishGame();
+                };
+            } else if (mode === 'fruit') {
+                subtitle.innerText = "Click on the right hanging apple to drop it inside the word basket! 🍎";
+                fishFruitFirstLoad = true;
+                document.querySelector('#view-fruit .fruit-top-word-panel').classList.add('hidden');
+                document.getElementById('fruit-tree-apples').classList.add('hidden');
+                
+                playInstructionAudio('english-guide-fruit.mp3');
+                
+                instructionSpeaker.onended = () => {
+                    document.querySelector('#view-fruit .fruit-top-word-panel').classList.remove('hidden');
+                    document.getElementById('fruit-tree-apples').classList.remove('hidden');
+                    initFruitGame();
+                };
+            } else if (mode === 'memory') {
+                subtitle.innerText = "Match the letters with their beautiful hidden vector cartoon pictures! 🧠";
+                playInstructionAudio('english-guide-memory.mp3');
+                instructionSpeaker.onended = () => { initMemoryGame(); };
+            }
+        }
+
+        function handleLetterClick(index) {
+            const item = lettersData[index]; triggerImmediatePop();
+            if (currentMode === 'explore') {
+                document.getElementById('video-wrapper').classList.add('hidden'); document.getElementById('result-wrapper').classList.remove('hidden');
+                document.getElementById('res-letter').innerText = item.l; document.getElementById('res-word').innerText = item.word; document.getElementById('res-emoji').innerText = item.emoji;
+                playLetterAudio(index);
+            } else if (currentMode === 'quiz') {
+                if (index === targetIndex) {
+                    if (winSound) { winSound.currentTime = 0; winSound.play().catch(()=>{}); }
+                    score += 10; document.getElementById('score-val').innerText = score;
+                    
+                    const plusTen = document.getElementById('plus-ten-anim');
+                    plusTen.classList.remove('hidden'); plusTen.classList.add('anim-fly-up');
+                    setTimeout(() => { plusTen.classList.add('hidden'); plusTen.classList.remove('anim-fly-up'); }, 1000);
+
+                    if (score >= 30) { setTimeout(showTreasure, 800); } else { setTimeout(initQuiz, 1100); }
+                } else { showWrongModal("Oops! Try again little star, you can find it!"); }
+            }
+        }
+
+        // English Audio Fetch Logic
+        function playLetterAudio(index) { 
+            const letterLower = lettersData[index].l.toLowerCase();
+            speaker.src = `audio/${letterLower}.mp3`; 
+            speaker.play().catch(()=>{}); 
+        }
+        function playInstructionAudio(fileName) { instructionSpeaker.src = `audio/${fileName}`; instructionSpeaker.play().catch(()=>{}); }
+        function playPopSound() { const s = document.getElementById('pop-sound'); if(s){ s.currentTime = 0; s.play().catch(()=>{}); } }
+
+        function playQuizAudioSequence() {
+            // Directly play target letter in English Quiz since there's no pre-word "ayn.mp3" for English
+            playLetterAudio(targetIndex);
+        }
+
+        function initQuiz() {
+            targetIndex = Math.floor(Math.random() * lettersData.length);
+            document.getElementById('quiz-target').innerText = lettersData[targetIndex].l; 
+            playQuizAudioSequence();
+        }
+
+        function triggerPopAndPlayTarget() {
+            triggerImmediatePop();
+            if(currentMode === 'quiz') playQuizAudioSequence();
+            if(currentMode === 'fish') playLetterAudio(fishTargetIndex);
+            if(currentMode === 'fruit') playLetterAudio(fruitTargetIndex);
+        }
+        function triggerPopAndPlayTargetDraw() {
+            triggerImmediatePop(); playLetterAudio(targetIndex);
+        }
+
+        function showWrongModal(text) {
+            document.getElementById('wrong-modal-text').innerText = text;
+            tryAgainSound.currentTime = 0; tryAgainSound.play().catch(()=>{}); wrongSound.currentTime = 0; wrongSound.play().catch(()=>{});
+            document.getElementById('wrong-modal').classList.add('show');
+        }
+        function closeModal() { triggerImmediatePop(); document.getElementById('wrong-modal').classList.remove('show'); }
+
+        const canvas = document.getElementById('drawing-board'); const ctx = canvas.getContext('2d'); let isDrawing = false;
+        function changePenColor(color, element) {
+            triggerImmediatePop(); currentPenColor = color; document.querySelectorAll('.color-bubble').forEach(b => b.classList.remove('active-color')); element.classList.add('active-color');
+        }
+        function initDraw() { 
+            targetIndex = Math.floor(Math.random() * lettersData.length); 
+            const targetEl = document.getElementById('draw-target-letter');
+            targetEl.innerHTML = `${lettersData[targetIndex].l} <span style="font-size: 1.3rem;">🔊</span>`;
+            clearCanvas(); 
+        }
+        function startPosition(e) { isDrawing = true; canvasPainted = true; draw(e); }
+        function endPosition() { isDrawing = false; ctx.beginPath(); }
+        function draw(e) {
+            if (!isDrawing) return; ctx.lineWidth = 10; ctx.lineCap = 'round'; ctx.strokeStyle = currentPenColor;
+            let x = e.clientX || (e.touches && e.touches[0].clientX); let y = e.clientY || (e.touches && e.touches[0].clientY);
+            let rect = canvas.getBoundingClientRect(); ctx.lineTo(x - rect.left, y - rect.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - rect.left, y - rect.top);
+        }
+        canvas.addEventListener('mousedown', startPosition); canvas.addEventListener('mouseup', endPosition); canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', (e) => { startPosition(e); e.preventDefault(); }); canvas.addEventListener('touchend', endPosition); canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); canvasPainted = false; }
+        function triggerPopAndClear() { triggerImmediatePop(); clearCanvas(); }
+        
+        function checkDrawing() { 
+            triggerImmediatePop(); 
+            if (canvasPainted) { 
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                let coloredPixels = 0;
+                for (let i = 3; i < imgData.length; i += 4) { if (imgData[i] > 50) coloredPixels++; }
+                
+                if (coloredPixels > 200) { showTreasure(); } 
+                else { showWrongModal("Please trace or draw the letter on the board first! 🎨"); }
+            } else { 
+                showWrongModal("Please trace or draw the letter on the board first! 🎨"); 
+            } 
+        }
+
+        function initFishGame() {
+            fishTargetIndex = Math.floor(Math.random() * lettersData.length); const item = lettersData[fishTargetIndex];
+            document.getElementById('fish-word-rest').innerText = item.word.substring(1); 
+            document.getElementById('fish-emoji').innerText = item.emoji;
+            
+            const blankSpan = document.querySelector('#fish-word-display .blank-space');
+            if(blankSpan) { blankSpan.style.color = '#ffde43'; blankSpan.innerText = '_'; }
+            
+            playLetterAudio(fishTargetIndex);
+
+            const choices = [item.l];
+            while(choices.length < 4) {
+                const randL = lettersData[Math.floor(Math.random() * lettersData.length)].l;
+                if(!choices.includes(randL)) choices.push(randL);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            const pool = document.getElementById('fish-choices-container'); pool.innerHTML = "";
+            const trackHeights = [10, 65, 120, 180]; 
+
+            choices.forEach((char, idx) => {
+                const wrapper = document.createElement('div'); wrapper.className = "fish-wrapper";
+                wrapper.style.top = `${trackHeights[idx]}px`;
+                wrapper.style.animationDuration = `9s`; 
+                wrapper.style.animationDelay = `${idx * 2}s`;
+                wrapper.innerHTML = `<div class="fish-letter-label">${char}</div><img src="images/fish.png" class="fish-image-render" alt="Fish">`;
+                wrapper.onclick = () => handleFishChoice(char, item.l, item.word);
+                pool.appendChild(wrapper);
+            });
+        }
+
+        // Catch and process selection
+        function handleFishChoice(selected, correct, fullWord) {
+            triggerImmediatePop();
+            if(selected === correct) {
+                document.getElementById('fish-word-rest').innerText = fullWord;
+                const blankSpan = document.querySelector('#fish-word-display .blank-space');
+                if(blankSpan) blankSpan.innerText = '';
+                
+                if (winSound) { winSound.currentTime = 0; winSound.play().catch(()=>{}); }
+                if (childCheerYaySound) { childCheerYaySound.currentTime = 0; childCheerYaySound.play().catch(()=>{}); }
+                setTimeout(showTreasure, 1000);
+            } else { showWrongModal("Oh! The fish swam away! Focus and catch the right letter fish! 🎣"); }
+        }
+
+        function initFruitGame() {
+            fruitTargetIndex = Math.floor(Math.random() * lettersData.length); const item = lettersData[fruitTargetIndex];
+            document.getElementById('fruit-word-rest').innerText = item.word.substring(1);
+            const blankSpan = document.querySelector('#fruit-word-display .blank-space');
+            if(blankSpan) { blankSpan.style.color = '#ec4899'; blankSpan.innerText = '_'; }
+            
+            playLetterAudio(fruitTargetIndex);
+
+            const choices = [item.l];
+            while(choices.length < 4) {
+                const randL = lettersData[Math.floor(Math.random() * lettersData.length)].l;
+                if(!choices.includes(randL)) choices.push(randL);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            const treeCanopy = document.getElementById('fruit-tree-apples'); treeCanopy.innerHTML = "";
+            const horizontalPositions = [15, 38, 62, 85]; 
+            const verticalPositions = [20, 60, 30, 70];
+            
+            choices.forEach((char, idx) => {
+                const apple = document.createElement('div'); apple.className = "apple-btn"; apple.innerText = char;
+                apple.style.left = `${horizontalPositions[idx]}%`; 
+                apple.style.top = `${verticalPositions[idx]}px`;
+                apple.onclick = () => handleFruitChoice(apple, char, item.l, item.word);
+                treeCanopy.appendChild(apple);
+            });
+        }
+
+        function handleFruitChoice(appleElement, selected, correct, fullWord) {
+            triggerImmediatePop();
+            if(selected === correct) {
+                if (appleDropSound) { appleDropSound.currentTime = 0; appleDropSound.play().catch(()=>{}); }
+                appleElement.classList.add('falling-down');
+                setTimeout(() => {
+                    const basket = document.getElementById('basket-zone-element'); basket.classList.add('basket-shake');
+                    
+                    document.getElementById('fruit-word-rest').innerText = fullWord;
+                    const blankSpan = document.querySelector('#fruit-word-display .blank-space');
+                    if(blankSpan) blankSpan.innerText = '';
+                    
+                    if (winSound) { winSound.currentTime = 0; winSound.play().catch(()=>{}); }
+                    setTimeout(() => { basket.classList.remove('basket-shake'); showTreasure(); }, 600);
+                }, 700); 
+            } else { showWrongModal("This apple isn't ripe yet! Find the apple with the correct letter! 🍎"); }
+        }
+
+        function initMemoryGame() {
+            if (giftOpenSound) { giftOpenSound.currentTime = 0; giftOpenSound.play().catch(()=>{}); } 
+            const shuffledLetters = [...lettersData].sort(() => Math.random() - 0.5).slice(0, 4);
+            let cardsArray = [];
+            
+            shuffledLetters.forEach(item => {
+                const originalIdx = lettersData.findIndex(x => x.l === item.l);
+                cardsArray.push({ type: 'letter', value: item.l, id: item.l, soundIdx: originalIdx });
+                cardsArray.push({ type: 'emoji', value: item.emoji, id: item.l, soundIdx: originalIdx });
+            });
+            cardsArray.sort(() => Math.random() - 0.5);
+
+            const gridContainer = document.getElementById('memory-game-grid'); gridContainer.innerHTML = "";
+            matchedPairsCount = 0; firstCard = null; secondCard = null; lockBoard = true; 
+
+            cardsArray.forEach(card => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'memory-card flipped card-wobble-intro'; 
+                cardEl.dataset.id = card.id;
+                cardEl.dataset.soundIdx = card.soundIdx;
+                cardEl.innerHTML = `<div class="card-inner"><div class="card-front">❓</div><div class="card-back">${card.value}</div></div>`;
+                cardEl.onclick = () => flipMemoryCard(cardEl);
+                gridContainer.appendChild(cardEl);
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.memory-card').forEach(card => {
+                    card.classList.remove('flipped');
+                    card.classList.remove('card-wobble-intro');
+                });
+                lockBoard = false; 
+            }, 1800);
+        }
+
+        function flipMemoryCard(card) {
+            if (lockBoard || card === firstCard || card.classList.contains('card-matched')) return;
+            triggerImmediatePop(); card.classList.add('flipped');
+            if (!firstCard) { firstCard = card; return; } secondCard = card; checkMemoryMatch();
+        }
+
+        function checkMemoryMatch() {
+            lockBoard = true;
+            if (firstCard.dataset.id === secondCard.dataset.id) {
+                if (winSound) { winSound.currentTime = 0; winSound.play().catch(()=>{}); }
+                firstCard.classList.add('card-matched'); secondCard.classList.add('card-matched'); matchedPairsCount++;
+                const targetSoundIdx = parseInt(firstCard.dataset.soundIdx);
+                
+                setTimeout(() => { playLetterAudio(targetSoundIdx); }, 300);
+
+                resetMemoryTurn(); 
+                if (matchedPairsCount === 4) { setTimeout(showTreasure, 1600); }
+            } else {
+                setTimeout(() => {
+                    if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(()=>{}); }
+                    firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped'); resetMemoryTurn(); 
+                }, 700);
+            }
+        }
+        function resetMemoryTurn() { [firstCard, secondCard] = [null, null]; lockBoard = false; }
+
+        function showTreasure() {
+            const screen = document.getElementById('treasure-screen'); const box = document.getElementById('treasure-box-element'); const title = document.getElementById('treasure-title');
+            if (giftOpenSound) { giftOpenSound.currentTime = 0; giftOpenSound.play().catch(()=>{}); }
+            box.innerText = "🎁"; box.classList.remove('opened'); title.innerText = "🎉 Tap the mystery box to receive your magical gift! 🎉";
+            document.getElementById('replay-btn').classList.add('hidden'); screen.style.display = 'flex'; createCelebration();
+        }
+        function openTreasure(element) {
+            if (element.classList.contains('opened')) return; element.classList.add('opened');
+            if (childCheerYaySound) { childCheerYaySound.currentTime = 0; childCheerYaySound.play().catch(()=>{}); }
+            if (childWinSound) { childWinSound.currentTime = 0; childWinSound.play().catch(()=>{}); }
+            element.innerText = "🏆"; document.getElementById('treasure-title').innerText = "Wow! You won the Magic Trophy of Intelligence! 🎉";
+            document.getElementById('replay-btn').classList.remove('hidden');
+        }
+        function handleReplay() {
+            triggerImmediatePop(); document.getElementById('treasure-screen').style.display = 'none'; score = 0; document.getElementById('score-val').innerText = score;
+            
+            if (currentMode === 'quiz') {
+                initQuiz(); 
+            } else if (currentMode === 'draw') {
+                initDraw(); 
+            } else if (currentMode === 'fish') {
+                fishFruitFirstLoad = false;
+                document.getElementById('fish-game-content-container').classList.remove('hidden');
+                initFishGame(); 
+            } else if (currentMode === 'fruit') {
+                fishFruitFirstLoad = false;
+                document.querySelector('#view-fruit .fruit-top-word-panel').classList.remove('hidden');
+                document.getElementById('fruit-tree-apples').classList.remove('hidden');
+                initFruitGame(); 
+            } else if (currentMode === 'memory') {
+                initMemoryGame(); 
+            } else {
+                switchMode('explore');
+            }
+        }
+        function createCelebration() {
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div'); el.className = 'celebration-element'; const items = ['🎈', '✨', '⭐', '🎉', '🌟', '🍭']; el.innerText = items[Math.floor(Math.random() * items.length)];
+                    el.style.left = Math.random() * 100 + 'vw'; el.style.animationDuration = (Math.random() * 2 + 3) + 's'; document.getElementById('treasure-screen').appendChild(el); setTimeout(() => el.remove(), 5000);
+                }, i * 100);
+            }
+        }
+
+        /* Stop Audios when leaving Tab */
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.querySelectorAll('audio, video').forEach(media => {
+                    if (!media.paused) {
+                        media.dataset.wasPlaying = "true";
+                        media.pause();
+                    } else {
+                        media.dataset.wasPlaying = "false";
+                    }
+                });
+            } else {
+                document.querySelectorAll('audio, video').forEach(media => {
+                    if (media.dataset.wasPlaying === "true") {
+                        media.play().catch(()=>{});
+                        media.dataset.wasPlaying = "false";
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

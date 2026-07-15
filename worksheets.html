@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بنك أوراق العمل القابلة للطباعة PDF | جزر المعرفة</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=800;900&family=Fredoka:wght=600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           الهوية اللونية والتهيئة العامة والتوافقية
+           ========================================================================== */
+        :root {
+            --purple-magic: #8572fa;
+            --purple-light: #a29bfe;
+            --dark-blue: #222f3e;
+            --main-bg: #f0f7fc;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            
+            --baby-pink: #ff758f;
+            --baby-blue: #2575fc;
+            --baby-yellow: #ffde43;
+            --baby-green: #1dd1a1;
+        }
+
+        [data-theme="dark"] {
+            --main-bg: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --dark-blue: #020617;
+            --purple-magic: #473f9e;
+            --purple-light: #6c5ce7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', 'Fredoka', sans-serif; user-select: none; }
+        body { background: var(--main-bg); color: var(--text-color); transition: background 0.3s, color 0.3s; overflow-x: hidden; padding-bottom: 0; }
+
+        .magic-sparkle-particle {
+            position: fixed; width: 10px; height: 10px; border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+            animation: fadeSparkleParticle 0.8s forwards ease-out;
+        }
+        @keyframes fadeSparkleParticle { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
+
+        /* ==========================================================================
+           أزرار التحكم العلوية
+           ========================================================================== */
+        .controls-wrapper {
+            position: fixed; top: 20px; left: 30px; z-index: 999; display: flex; gap: 12px;
+        }
+
+        .control-circle-btn {
+            width: 50px; height: 50px; background: #ffffff;
+            border: 3px solid var(--purple-magic); border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            font-size: 1.3rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .control-circle-btn:hover { transform: scale(1.1) rotate(10deg); }
+        [data-theme="dark"] .control-circle-btn { background: #1e293b; border-color: #ffee55; }
+        .hidden-icon { display: none !important; }
+
+        .hamburger-btn {
+            position: fixed; top: 20px; right: 30px; z-index: 99999;
+            width: 50px; height: 50px; background: white;
+            border: 3px solid #ff758f; border-radius: 50%; cursor: pointer;
+            display: none; justify-content: center; align-items: center; font-size: 1.5rem; color: #ff758f;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .hamburger-btn { background: #1e293b; }
+
+        /* ==========================================================================
+           شريط التنقل العلوي
+           ========================================================================== */
+        .top-nav-container { display: flex; justify-content: center; margin: 20px auto; padding: 0 20px; }
+        .top-nav-bar {
+            display: flex; justify-content: center; align-items: center;
+            padding: 15px 35px; background: linear-gradient(135deg, #fffefe 0%, #e0f2fe 100%); 
+            border-radius: 50px; box-shadow: 0 12px 30px rgba(37, 117, 252, 0.2); 
+            border: 4px solid #7dd3fc; gap: 15px; flex-wrap: wrap; transition: 0.4s ease;
+        }
+        [data-theme="dark"] .top-nav-bar { background: var(--card-bg); border-color: var(--purple-magic); }
+
+        .nav-btn {
+            background: var(--main-bg); color: var(--text-color); text-decoration: none;
+            padding: 12px 24px; border-radius: 50px; font-weight: 900; font-size: 1.1rem;
+            transition: all 0.3s; border: 3px solid #cbd5e1; display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); white-space: nowrap !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .nav-btn { background: var(--main-bg); border-color: #475569; }
+        
+        .nav-btn:nth-child(1) { border-color: #ff7675; color: #d63031; }
+        .nav-btn:nth-child(2) { border-color: #fdcb6e; color: #e17055; }
+        .nav-btn:nth-child(3) { border-color: #1dd1a1; color: #10ac84; }
+        .nav-btn:nth-child(4) { border-color: #0984e3; color: #74b9ff; }
+        .nav-btn:nth-child(5) { border-color: #a29bfe; color: #6c5ce7; }
+        .nav-btn:nth-child(6) { border-color: #9b59b6; color: #8e44ad; }
+
+        .nav-btn:hover, .nav-btn.active-page { transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .nav-btn.active-page { background: linear-gradient(135deg, #ff758f, #ff8fa3); color: white !important; border-color: #ff4d6d !important; }
+
+        /* ==========================================================================
+           العنوان وبانر الشهادة
+           ========================================================================== */
+        .header-title-wrapper { text-align: center; margin: 15px auto; padding: 0 15px; max-width: 90%; }
+        .header-title { font-size: clamp(1.3rem, 5vw, 3.8rem); font-weight: 900; color: var(--purple-magic); margin-bottom: 5px; white-space: nowrap; }
+        [data-theme="dark"] .header-title { color: #ffde43; }
+        .header-subtitle { font-size: clamp(0.9rem, 3.5vw, 1.5rem); color: #2f3542; font-weight: 800; }
+        [data-theme="dark"] .header-subtitle { color: #f8fafc; }
+
+        .certificate-banner-container { display: flex; justify-content: center; margin: 15px 0 25px 0; padding: 0 15px; }
+        .certificate-banner {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, #f39c12, #f1c40f); color: white;
+            text-decoration: none; font-size: clamp(0.95rem, 3.5vw, 1.3rem); font-weight: 900;
+            padding: 12px 25px; border-radius: 50px; border: 3px solid white;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap; text-align: center; max-width: 100%;
+        }
+        .certificate-banner:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 25px rgba(243, 156, 18, 0.5); }
+        [data-theme="dark"] .certificate-banner { border-color: #1e293b; }
+
+        /* ==========================================================================
+           شريط الأقسام مع الأسهم التعبيرية للتمرير
+           ========================================================================== */
+        .modes-scroll-wrapper {
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            max-width: 1100px; margin: 20px auto; padding: 0 10px; position: relative;
+        }
+        .scroll-arrow {
+            background: #ffffff; border: 3px solid var(--purple-magic); color: var(--purple-magic);
+            border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; font-weight: bold;
+            display: none; justify-content: center; align-items: center; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; z-index: 10;
+            -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+        }
+        .scroll-arrow:hover { transform: scale(1.1); background: var(--purple-light); color: white; }
+        [data-theme="dark"] .scroll-arrow { background: #1e293b; border-color: #ffee55; color: #ffee55; }
+        
+        .modes-container { 
+            display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scroll-behavior: smooth;
+            padding: 10px 5px; width: 100%; -webkit-overflow-scrolling: touch; justify-content: center;
+        }
+        .modes-container::-webkit-scrollbar { display: none; }
+        
+        .mode-btn {
+            padding: 10px 16px; border-radius: 50px; font-size: 1.05rem; font-weight: 900;
+            cursor: pointer; border: 4px solid var(--card-bg); transition: 0.3s; 
+            background: #e2e8f0; color: #475569; box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            display: flex; align-items: center; justify-content: center; gap: 6px; flex: 0 0 auto;
+            white-space: nowrap !important; -webkit-tap-highlight-color: transparent;
+        }
+        [data-theme="dark"] .mode-btn { background: #334155; color: #cbd5e1; border-color: #1e293b; }
+        
+        .tab-arabic.active { background: linear-gradient(135deg, #ff9f43, #ff5252); color: white; box-shadow: 0 8px 20px rgba(255,82,82,0.35); }
+        .tab-english.active { background: linear-gradient(135deg, #0984e3, #74b9ff); color: white; box-shadow: 0 8px 20px rgba(9,132,227,0.35); }
+        .tab-numbers.active { background: linear-gradient(135deg, #10ac84, #01a3a4); color: white; box-shadow: 0 8px 20px rgba(16,172,132,0.35); }
+        .tab-colors.active { background: linear-gradient(135deg, #22c55e, #15803d); color: white; box-shadow: 0 8px 20px rgba(34,197,94,0.35); }
+        
+        .tab-booklets { background: var(--card-bg); color: #d35400; border: 3px dashed #f39c12; }
+        .tab-booklets:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(243, 156, 18, 0.2); }
+        .tab-booklets.active { background: linear-gradient(135deg, #f39c12, #d35400); color: white; border: 4px solid var(--card-bg); box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4); }
+
+        /* ==========================================================================
+           اللوحة المركزية وشبكة التوزيع المرنة لمنع انعزال أي ملف PDF
+           ========================================================================== */
+        .magic-board {
+            background: var(--card-bg); border-radius: 40px; padding: clamp(20px, 4vw, 40px) clamp(15px, 3vw, 25px); max-width: 1100px;
+            margin: 0 auto 40px auto; border: 6px solid var(--purple-light); box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            min-height: 400px;
+        }
+        
+        .section-view { display: none; animation: fadeIn 0.4s ease; width: 100%; }
+        .section-view.active-view { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* استخدام Flexbox وتوسيط العناصر لمنع بقاء أي كارت لوحده بالطرف */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* التوسيط الذهبي لجميع الأجهزة */
+        }
+
+        /* فئة مخصصة للأرقام لتظهر من اليسار لليمين */
+        .ltr-container {
+            direction: ltr;
+        }
+        .ltr-container .worksheet-card {
+            direction: rtl; /* للحفاظ على الاتجاه الصحيح للنصوص بداخل الكرت */
+        }
+
+        .worksheet-card {
+            background: #f8fafc; border: 4px solid #e2e8f0; border-radius: 25px; padding: 20px 15px;
+            text-align: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            gap: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.04); cursor: pointer;
+            flex: 0 1 180px; max-width: 200px;
+        }
+        [data-theme="dark"] .worksheet-card { background: #334155; border-color: #475569; }
+        .worksheet-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--purple-light); z-index: 5; }
+
+        /* جعل الخط عريض جداً وغامق BOLD داخل الدائرة كما طلبت */
+        .card-icon {
+            font-size: 3rem; background: white; width: 80px; height: 80px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06); border: 3px solid #f1f2f6; flex-shrink: 0;
+            font-weight: 900 !important; /* عريض جداً */
+        }
+        [data-theme="dark"] .card-icon { background: #1e293b; border-color: #0f172a; }
+        
+        .card-rect-icon { width: 52px; height: 30px; background: #ff9ff3; border: 3px solid #222f3e; border-radius: 6px; display: inline-block; }
+        .card-title { font-size: 1.2rem; font-weight: 900; color: var(--dark-blue); }
+        [data-theme="dark"] .card-title { color: #f8fafc; }
+
+        .download-btn {
+            color: white; text-decoration: none; padding: 12px 15px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 900; display: inline-flex; align-items: center; gap: 5px;
+            width: 100%; justify-content: center; transition: 0.2s; border: 2px solid white;
+            white-space: nowrap; -webkit-tap-highlight-color: transparent;
+        }
+        .download-btn:hover { transform: scale(1.05); }
+
+        /* ==========================================================================
+           توزيع شاشات اللابتوب والكمبيوتر المخصصة (الأرقام، الأشكال، الدوسيات)
+           ========================================================================== */
+        @media (min-width: 769px) {
+            /* وضع 5 بالأعلى و 5 بالأسفل للأرقام والأشكال على اللابتوب */
+            #numbers-grid, #colors-grid {
+                display: grid !important;
+                grid-template-columns: repeat(5, 1fr) !important;
+                max-width: 1000px;
+                margin: 0 auto;
+                gap: 20px;
+            }
+            #numbers-grid .worksheet-card, #colors-grid .worksheet-card {
+                flex: none !important; max-width: none !important; width: auto !important;
+            }
+
+            /* توزيع الدوسيات الأربعة بشكل كامل ومتناسق على اللابتوب */
+            #booklets-grid {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                max-width: 1050px;
+                margin: 0 auto;
+                gap: 25px;
+            }
+            #booklets-grid .worksheet-card {
+                flex: none !important; max-width: none !important; width: auto !important;
+            }
+        }
+
+        /* ==========================================================================
+           التوافق الكلي والدقيق مع الهواتف الذكية (4 بطاقات متراصة)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .hamburger-btn { display: flex; }
+            .top-nav-bar {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background: var(--card-bg); z-index: 9999; flex-direction: column;
+                justify-content: flex-start; align-items: stretch; padding: 90px 25px 30px 25px;
+                border-radius: 0; border: none; border-left: 5px solid #ff758f;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.2); gap: 20px;
+            }
+            .top-nav-bar.mobile-open { right: 0; }
+            .top-nav-container { margin: 0; }
+            .nav-btn { justify-content: center; font-size: 1.2rem; }
+            
+            .controls-wrapper { top: 20px; left: 30px; gap: 8px; }
+            .control-circle-btn { width: 45px; height: 45px; font-size: 1.1rem; border-width: 2px; }
+            .hamburger-btn { width: 45px; height: 45px; font-size: 1.4rem; top: 20px; right: 30px; }
+            
+            .header-title-wrapper { padding-top: 75px !important; margin: 10px auto; }
+            .header-title { font-size: clamp(1.1rem, 4.5vw, 2.2rem); }
+            
+            .modes-container { justify-content: flex-start; gap: 8px; padding: 10px 5px; }
+            .modes-scroll-wrapper { margin: 15px auto; gap: 3px; }
+            .scroll-arrow { display: flex; width: 35px; height: 35px; font-size: 1.1rem; flex-shrink: 0; }
+            .mode-btn { width: auto; min-width: max-content; flex: 0 0 auto; padding: 10px 18px; font-size: clamp(0.9rem, 3.5vw, 1.05rem); }
+            
+            .magic-board { padding: 15px 10px; margin: 0 10px 30px 10px; border-radius: 25px; }
+            
+            /* نظام الـ 4 بطاقات المرتب بجانب بعضهم على الهاتف */
+            .cards-grid {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+                justify-content: center !important;
+            }
+
+            .worksheet-card { 
+                flex: 0 0 calc(25% - 8px) !important;
+                min-width: calc(25% - 8px) !important;
+                max-width: calc(25% - 8px) !important;
+                padding: 10px 4px !important;
+                gap: 8px !important;
+                border-radius: 12px !important;
+                border-width: 2px !important;
+            }
+            .card-icon { 
+                width: 38px !important; height: 38px !important;
+                font-size: 1.4rem !important; border-width: 2px !important;
+                font-weight: 900 !important;
+            }
+            .card-title { font-size: 0.75rem !important; font-weight: 800; }
+            .download-btn { 
+                font-size: 0.7rem !important; padding: 6px 4px !important; 
+                border-width: 1px !important; border-radius: 15px !important;
+            }
+            .card-rect-icon { width: 25px !important; height: 15px !important; border-width: 2px !important; border-radius: 3px;}
+            
+            /* جعل الدوسيات على الموبايل تأخذ صفين من عنصرين لتناسب النص الطويل */
+            #booklets-grid.cards-grid .worksheet-card {
+                flex: 0 0 calc(50% - 8px) !important;
+                min-width: calc(50% - 8px) !important;
+                max-width: calc(50% - 8px) !important;
+            }
+        }
+
+        /* ==========================================================================
+           الفوتر المنسوخ والمطابق كلياً لصفحة الويب الأصلية (arabic.html)
+           ========================================================================== */
+        .luxury-footer { 
+            background: var(--dark-blue); color: #a4b0be; padding: 60px 20px 30px 20px; text-align: center; 
+            position: relative; border-top: 6px dashed #ffee55; margin-top: 80px; 
+            border-radius: 40px 40px 0 0; transition: background 0.5s ease, color 0.5s ease; 
+        }
+        .footer-grid-layout { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; text-align: right; align-items: start; }
+        .footer-about { padding-left: 20px; border-left: 2px solid #3d4a5d; }
+        .footer-about h2, .footer-info h3 { color: #ffee55 !important; font-size: 1.4rem !important; font-weight: 900 !important; margin-bottom: 15px !important; text-align: right; }
+        .footer-about p { font-size: 1.1rem; line-height: 1.8; font-weight: bold; color: #cbd5e1; }
+        .footer-info p { font-size: 1.1rem; color: #ffffff; font-weight: bold; display: flex; align-items: center; gap: 8px; justify-content: flex-start; margin-bottom: 12px; }
+        .footer-info a { color: #00d2d3; text-decoration: none; transition: 0.3s; white-space: nowrap; }
+        .footer-info a:hover { color: #54a0ff; }
+        .footer-separator { height: 2px; background: linear-gradient(to right, transparent, #576574, transparent); margin: 30px 0 20px 0; }
+        .signature { color: #ffffff; font-size: clamp(0.85rem, 3.5vw, 1.1rem); font-weight: bold; white-space: nowrap; margin-bottom: 0; }
+
+        @media (max-width: 768px) {
+            .footer-grid-layout { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+            .footer-about { padding-left: 0; border-left: none; border-bottom: 2px dashed #3d4a5d; padding-bottom: 15px; }
+            .footer-about h2, .footer-info h3 { text-align: center !important; font-size: 1.2rem !important; }
+            .footer-about p { font-size: 0.95rem; text-align: center; line-height: 1.6; }
+            .footer-info p { font-size: 0.95rem; justify-content: center; white-space: nowrap; }
+            .luxury-footer { padding: 30px 15px 15px 15px; margin-top: 60px; border-radius: 25px 25px 0 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls-wrapper">
+        <button id="music-control-btn" class="control-circle-btn" aria-label="كتم أو تشغيل الموسيقى">
+            <span class="music-icon-on">🎵</span>
+            <span class="music-icon-off hidden-icon">🔇</span>
+        </button>
+
+        <button id="theme-toggle-btn" class="control-circle-btn" aria-label="تبديل الوضع الليلي والنهاري">
+            <span class="theme-icon-to-dark">🌙</span>
+            <span class="theme-icon-to-light hidden-icon">☀️</span>
+        </button>
+    </div>
+
+    <button id="hamburger-btn" class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
+
+    <audio id="bg-music" src="audio/background-music.mp3" loop></audio>
+    <audio id="pop-sound" src="audio/pop.mp3" preload="auto"></audio>
+
+    <div class="top-nav-container">
+        <nav class="top-nav-bar" id="top-nav-bar">
+            <a href="index.html" class="nav-btn">🏠 الرئيسية</a>
+            <a href="arabic.html" class="nav-btn">🎈 الحروف العربية</a>
+            <a href="english.html" class="nav-btn">🔤 الحروف الإنجليزية</a>
+            <a href="numbers.html" class="nav-btn">🔢 الأرقام السحرية</a>
+            <a href="colors.html" class="nav-btn">🎨 الأشكال والألوان</a>
+            <a href="worksheets.html" class="nav-btn active-page">📄 أوراق العمل PDF</a>
+        </nav>
+    </div>
+
+    <header class="header-title-wrapper">
+        <h1 class="header-title">بنك أوراق العمل التعليمية</h1>
+        <p class="header-subtitle">ملفات جاهزة بصيغة PDF للطباعة المباشرة لتنمية مهارات طفلك!</p>
+    <script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+crossorigin="anonymous"></script>
+</header>
+
+    <div class="certificate-banner-container">
+        <a href="certificate.html" class="certificate-banner">
+            🏅 اصنع شهادة تقدير باسم طفلك (PDF) 🏅
+        </a>
+    </div>
+
+    <div class="modes-scroll-wrapper">
+        <button class="scroll-arrow right-arrow" onclick="document.getElementById('modes-container').scrollBy({left: 150, behavior: 'smooth'})" title="مرر لليمين">&#10095;</button>
+        <div class="modes-container" id="modes-container" dir="rtl">
+            <button class="mode-btn tab-btn tab-arabic active" onclick="switchTab('arabic')"><span>🎈</span> الحروف العربية</button>
+            <button class="mode-btn tab-btn tab-english" onclick="switchTab('english')"><span>🔤</span> الحروف الإنجليزية</button>
+            <button class="mode-btn tab-btn tab-numbers" onclick="switchTab('numbers')"><span>🔢</span> الأرقام السحرية</button>
+            <button class="mode-btn tab-btn tab-colors" onclick="switchTab('colors')"><span>🎨</span> الأشكال والألوان</button>
+            <button class="mode-btn tab-btn tab-booklets" onclick="switchTab('booklets')"><span>📚</span> جميع الدوسيات</button>
+        </div>
+        <button class="scroll-arrow left-arrow" onclick="document.getElementById('modes-container').scrollBy({left: -150, behavior: 'smooth'})" title="مرر لليسار">&#10094;</button>
+    </div>
+
+    <main class="magic-board">
+        
+        <div id="view-arabic" class="section-view active-view">
+            <div class="cards-grid" id="arabic-grid"></div>
+        </div>
+
+        <div id="view-english" class="section-view">
+            <div class="cards-grid ltr-container" id="english-grid"></div>
+        </div>
+
+        <div id="view-numbers" class="section-view">
+            <div class="cards-grid ltr-container" id="numbers-grid"></div>
+        </div>
+
+        <div id="view-colors" class="section-view">
+            <div class="cards-grid" id="colors-grid"></div>
+        </div>
+
+        <div id="view-booklets" class="section-view">
+            <div class="cards-grid" id="booklets-grid"></div>
+        </div>
+
+    </main>
+
+    <footer class="luxury-footer">
+        <div class="footer-grid-layout">
+            <div class="footer-about">
+                <h2>عن منصتنا</h2>
+                <p>منصة "عالم جزر المعرفة السحري" تم تطويرها بواسطة فدوى ماجد أبو حفيظة وهي منصة تفاعلية مبتكرة مصممة لأطفال الروضة والتعليم المبكر، تدمج المرح بالتعلم عبر رسومات ومؤثرات صوتية ومحتوى هادف لتأسيس جيل مبدع ومحب للعلم.</p>
+            </div>
+
+            <div class="footer-info">
+                <h3>تواصلوا معنا للإستفسارات والدعم</h3>
+                <p>✉️ <a href="mailto:magicalworld.knowledgeislands@gmail.com">magicalworld.knowledgeislands@gmail.com</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-separator"></div>
+        <p class="signature">جميع الحقوق محفوظة 2026 © عالم جزر المعرفة السحري </p>
+    </footer>
+
+    <script>
+        const popSound = document.getElementById('pop-sound');
+        const bgMusic = document.getElementById('bg-music');
+
+        function triggerImmediatePop() { if (popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
+
+        // بيانات المحتوى والبطاقات
+        const arabicData = [
+            { name: 'ألف', char: 'أ' }, { name: 'باء', char: 'ب' }, { name: 'تاء', char: 'ت' }, { name: 'ثاء', char: 'ث' },
+            { name: 'جيم', char: 'ج' }, { name: 'حاء', char: 'ح' }, { name: 'خاء', char: 'خ' }, { name: 'دال', char: 'د' },
+            { name: 'ذال', char: 'ذ' }, { name: 'راء', char: 'ر' }, { name: 'زاي', char: 'ز' }, { name: 'سين', char: 'س' },
+            { name: 'شين', char: 'ش' }, { name: 'صاد', char: 'ص' }, { name: 'ضاد', char: 'ض' }, { name: 'طاء', char: 'ط' },
+            { name: 'ظاء', char: 'ظ' }, { name: 'عين', char: 'ع' }, { name: 'غين', char: 'غ' }, { name: 'فاء', char: 'ف' },
+            { name: 'قاف', char: 'ق' }, { name: 'كاف', char: 'ك' }, { name: 'لام', char: 'ل' }, { name: 'ميم', char: 'م' },
+            { name: 'نون', char: 'ن' }, { name: 'هاء', char: 'هـ' }, { name: 'واو', char: 'و' }, { name: 'ياء', char: 'ي' }
+        ];
+
+        const englishLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+        const colorsData = [
+            { name: 'أحمر', visual: '🔴' }, { name: 'أزرق', visual: '🔵' }, { name: 'أخضر', visual: '🟢' }, 
+            { name: 'أصفر', visual: '🟡' }, { name: 'برتقالي', visual: '🟠' }, { name: 'مربع', visual: '⬜' }, 
+            { name: 'دائرة', visual: '⭕' }, { name: 'مثلث', visual: '🔺' }, { name: 'مستطيل', visual: 'rect' }, 
+            { name: 'نجمة', visual: '⭐' }
+        ];
+
+        const bookletsData = [
+            { name: 'دوسية عربي', fileName: 'دوسية عربي', visual: '📚', color: '#ff4d6d' },
+            { name: 'دوسية إنجليزي', fileName: 'دوسية انجليزي', visual: '📘', color: '#2575fc' },
+            { name: 'دوسية أرقام', fileName: 'دوسية ارقام', visual: '🔢', color: '#f0932b' },
+            { name: 'دوسية أشكال وألوان', fileName: 'دوسية اشكال والوان', visual: '🎨', color: '#10ac84' }
+        ];
+
+        // تم إلغاء صوت التأشير (onmouseenter) بالكامل بناءً على طلبك
+        function generateCards() {
+            const arabicGrid = document.getElementById('arabic-grid');
+            arabicData.forEach(item => {
+                arabicGrid.innerHTML += `
+                    <div class="worksheet-card">
+                        <div class="card-icon" style="color: #ff758f;">${item.char}</div>
+                        <div class="card-title">حرف ${item.name}</div>
+                        <a href="pdfs/${item.char}.pdf" download class="download-btn" style="background: linear-gradient(135deg, #ff758f, #ff4d6d); box-shadow: 0 4px 10px rgba(255,77,109,0.3);" onclick="triggerImmediatePop()">📥 تحميل</a>
+                    </div>`;
+            });
+
+            const englishGrid = document.getElementById('english-grid');
+            englishLetters.forEach(char => {
+                englishGrid.innerHTML += `
+                    <div class="worksheet-card">
+                        <div class="card-icon" style="color: #2575fc;">${char}</div>
+                        <div class="card-title">Letter ${char}</div>
+                        <a href="pdfs/${char}.pdf" download class="download-btn" style="background: linear-gradient(135deg, #74b9ff, #2575fc); box-shadow: 0 4px 10px rgba(37,117,252,0.3);" onclick="triggerImmediatePop()">📥 تحميل</a>
+                    </div>`;
+            });
+
+            const numbersGrid = document.getElementById('numbers-grid');
+            for (let i = 1; i <= 10; i++) {
+                numbersGrid.innerHTML += `
+                    <div class="worksheet-card">
+                        <div class="card-icon" style="color: #f0932b;">${i}</div>
+                        <div class="card-title">الرقم ${i}</div>
+                        <a href="pdfs/${i}.pdf" download class="download-btn" style="background: linear-gradient(135deg, #ffbe76, #f0932b); box-shadow: 0 4px 10px rgba(240,147,43,0.3);" onclick="triggerImmediatePop()">📥 تحميل</a>
+                    </div>`;
+            }
+
+            const colorsGrid = document.getElementById('colors-grid');
+            colorsData.forEach(item => {
+                let visualContent = item.visual === 'rect' ? '<div class="card-rect-icon"></div>' : item.visual;
+                colorsGrid.innerHTML += `
+                    <div class="worksheet-card">
+                        <div class="card-icon">${visualContent}</div>
+                        <div class="card-title">${item.name}</div>
+                        <a href="pdfs/${item.name}.pdf" download class="download-btn" style="background: linear-gradient(135deg, #55efc4, #10ac84); box-shadow: 0 4px 10px rgba(16,172,132,0.3);" onclick="triggerImmediatePop()">📥 تحميل</a>
+                    </div>`;
+            });
+
+            const bookletsGrid = document.getElementById('booklets-grid');
+            bookletsData.forEach(item => {
+                bookletsGrid.innerHTML += `
+                    <div class="worksheet-card" style="border-color: ${item.color}; border-width: 4px;">
+                        <div class="card-icon" style="font-size: 2.5rem; border-color: ${item.color};">${item.visual}</div>
+                        <div class="card-title" style="color: ${item.color};">${item.name}</div>
+                        <a href="pdfs/${item.fileName}.pdf" download class="download-btn" style="background: ${item.color}; box-shadow: 0 4px 15px rgba(0,0,0,0.2);" onclick="triggerImmediatePop()">📥 الدوسية كاملة</a>
+                    </div>`;
+            });
+        }
+
+        function switchTab(tabName) {
+            triggerImmediatePop();
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section-view').forEach(view => view.classList.remove('active-view'));
+            
+            document.querySelector(`.tab-${tabName}`).classList.add('active');
+            document.getElementById(`view-${tabName}`).classList.add('active-view');
+        }
+
+        function toggleMobileMenu() { 
+            triggerImmediatePop();
+            document.getElementById('top-nav-bar').classList.toggle('mobile-open'); 
+        }
+
+        // تأثير جزيئات النجوم المتلألئة السحرية
+        document.addEventListener('mousemove', handleSparkles);
+        document.addEventListener('touchmove', (e) => handleSparkles(e.touches[0]));
+        function handleSparkles(e) {
+            if (Math.random() > 0.90) { 
+                const particle = document.createElement('div'); particle.className = 'magic-sparkle-particle';
+                particle.style.left = e.clientX + 'px'; particle.style.top = e.clientY + 'px';
+                const colors = ['#ffee55', '#ff6b81', '#1dd1a1', '#00d2d3', '#a29bfe'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(particle); setTimeout(() => { particle.remove(); }, 800);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            generateCards();
+
+            // آلية الوضع الداكن / الفاتح
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const iconToDark = document.querySelector('.theme-icon-to-dark');
+            const iconToLight = document.querySelector('.theme-icon-to-light');
+            
+            if (localStorage.getItem('theme-choice') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(iconToDark && iconToLight) { iconToDark.classList.add('hidden-icon'); iconToLight.classList.remove('hidden-icon'); }
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation(); triggerImmediatePop();
+                    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme-choice', 'light');
+                        iconToDark.classList.remove('hidden-icon');  
+                        iconToLight.classList.add('hidden-icon');    
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme-choice', 'dark');
+                        iconToDark.classList.add('hidden-icon');     
+                        iconToLight.classList.remove('hidden-icon');   
+                    }
+                });
+            }
+
+            // إدارة صوت الخلفية الموسيقية
+            const musicControlBtn = document.getElementById('music-control-btn');
+            const iconOn = document.querySelector('.music-icon-on');
+            const iconOff = document.querySelector('.music-icon-off');
+
+            if (musicControlBtn && bgMusic) {
+                const startAudio = () => { 
+                    bgMusic.volume = 0.06; bgMusic.play().catch(()=>{});
+                    document.removeEventListener('click', startAudio);
+                };
+                document.addEventListener('click', startAudio);
+
+                musicControlBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); triggerImmediatePop(); 
+                    if (bgMusic.muted || bgMusic.paused) {
+                        bgMusic.muted = false; bgMusic.play().catch(()=>{});
+                        iconOn.classList.remove('hidden-icon'); iconOff.classList.add('hidden-icon');
+                    } else {
+                        bgMusic.muted = true; iconOn.classList.add('hidden-icon'); iconOff.classList.remove('hidden-icon');
+                    }
+                });
+            }
+        });
+
+        // كتم وإيقاف الصوت تلقائياً بمجرد الخروج من الموقع أو التبويب
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.querySelectorAll('audio').forEach(media => {
+                    if (!media.paused) {
+                        media.dataset.wasPlaying = "true";
+                        media.pause();
+                    } else {
+                        media.dataset.wasPlaying = "false";
+                    }
+                });
+            } else {
+                document.querySelectorAll('audio').forEach(media => {
+                    if (media.dataset.wasPlaying === "true") {
+                        media.play().catch(()=>{});
+                        media.dataset.wasPlaying = "false";
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

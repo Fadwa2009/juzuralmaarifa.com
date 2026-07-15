@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>عالم جزر المعرفة السحري | منصة تفاعلية لتعليم أطفال الروضة</title>
+    
+    <meta name="description" content="منصة عالم جزر المعرفة السحري هي أفضل موقع تعليمي تفاعلي إبداعي مخصص لأطفال الروضة، الحضانة، والتعليم المبكر. نساعد الأطفال على تعلم الحروف العربية، الحروف الإنجليزية، الأرقام والحساب، الألوان، الرسم، الأشكال، مع أوراق عمل PDF مجانية جاهزة للطباعة والتحميل، مدعومة برسومات متحركة، ومؤثرات صوتية مبهجة للأطفال.">
+    <meta name="keywords" content="جزر المعرفة, عالم جزر المعرفة السحري, روضة أطفال, تعليم الأطفال, روضة تفاعلية, الحروف للأطفال, الأرقام للروضة, موقع تعليمي طفولي, فدوى ماجد, Fadwa Majed, اوراق عمل PDF, أوراق عمل للروضة, تعليم الحروف العربية للأطفال, تعليم الانجليزية للاطفال, العاب تعليمية للاطفال, تأسيس أطفال, الحضانة السعيدة, منصة تعليم مبكر, ألعاب ذكاء للأطفال, تلوين ورسم, قصص أطفال, وسائل تعليمية, بطاقات الحروف, مرحلة التمهيدي, KG1, KG2, رياض الأطفال, تعلم واصدار شهادات, شهادات تفاعلية للأطفال, منصة اطفال مجانية, جزر المعرفة التعليمية">
+    <meta name="author" content="فدوى ماجد أبو حفيظة">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="عالم جزر المعرفة السحري | منصة تفاعلية للأطفال">
+    <meta property="og:description" content="افتحوا لأطفالكم أبواب المغامرة والتعلم المرح مع جزر المعرفة السحرية وحملوا أوراق العمل والشهادات!">
+    <meta property="og:image" content="images/logo.png">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=800;900&family=Fredoka:wght=600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. الهوية اللونية والتهيئة العامة للموقع
+           ========================================================================== */
+        :root {
+            --purple-magic: #8572fa;
+            --purple-light: #a29bfe;
+            --dark-blue: #222f3e;
+            --tv-color: #ff6b81;
+            --body-bg: #f0f7fc;
+            --text-color: #333333;
+            --card-text-shadow: rgba(0, 0, 0, 0.2);
+            --title-color: #222f3e;
+            --footer-bg: #222f3e;
+            --footer-text: #cbd5e1;
+            --tv-border: #ffffff;
+            --tv-overlay-bg: #ffffff;
+            --tv-text-color: #1b4f72;
+            
+            --ar-gradient: linear-gradient(135deg, #ff9f43, #ff5252);
+            --en-gradient: linear-gradient(135deg, #00d2d3, #54a0ff);
+            --num-gradient: linear-gradient(135deg, #10ac84, #1dd1a1);
+            --paint-gradient: linear-gradient(135deg, #feca57, #ff9f43);
+            --pdf-gradient: linear-gradient(135deg, #ff4757, #ff6b81);
+        }
+
+        [data-theme="dark"] {
+            --body-bg: #0f172a;
+            --text-color: #f8fafc;
+            --title-color: #ffee55;
+            --purple-magic: #473f9e;
+            --purple-light: #6c5ce7;
+            --tv-color: #2d3748;
+            --tv-border: #4a5568;
+            --tv-overlay-bg: #1a202c;
+            --tv-text-color: #e2e8f0;
+            --footer-bg: #020617;
+            --footer-text: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Fredoka', sans-serif;
+        }
+
+        /* إضافة html لحل مشكلة الفراغ الجانبي بالهواتف بالكامل */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--body-bg);
+            color: var(--text-color);
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .magic-sparkle-particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffee55;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 10px #ffee55, 0 0 20px #ff3838;
+            animation: fadeSparkleParticle 0.8s forwards ease-out;
+        }
+
+        .controls-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-circle-btn {
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            border: 3px solid var(--purple-magic);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .control-circle-btn:hover { transform: scale(1.1) rotate(10deg); }
+        
+        [data-theme="dark"] .control-circle-btn {
+            background: #1e293b;
+            border-color: #ffee55;
+        }
+
+        .hidden-icon { display: none !important; }
+
+        .magic-header {
+            position: relative;
+            background: linear-gradient(135deg, var(--purple-magic) 0%, var(--purple-light) 100%);
+            padding: 40px 20px 90px 20px;
+            text-align: center;
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+            box-shadow: 0 10px 30px rgba(133, 114, 250, 0.15);
+            transition: background 0.5s ease;
+        }
+
+        .brand-box { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .sparkle-logo { width: 90px; height: 90px; object-fit: contain; filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.15)); animation: bounceLogo 6s infinite ease-in-out; }
+        .glow-text { font-size: 2.8rem; font-weight: 900; color: #ffffff; text-shadow: 3px 3px 0px #ff3838; }
+        .pulse-text { font-size: 1.3rem; margin-top: 10px; color: #ffee55; font-weight: bold; }
+        
+        .main-content { max-width: 1200px; margin: -40px auto 60px auto; padding: 0 20px; }
+
+        /* ==========================================================================
+           2. التلفاز الكرتوني التفاعلي
+           ========================================================================== */
+        .cinema-universe {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .magic-tv-container {
+            width: 100%;
+            max-width: 740px;
+            position: relative;
+        }
+
+        .tv-antenna {
+            width: 12px; height: 35px; background: #747d8c; margin: 0 auto; position: relative; border-radius: 10px; z-index: 5;
+        }
+        .tv-antenna::before, .tv-antenna::after {
+            content: ''; position: absolute; top: -10px; width: 20px; height: 20px; background: #ffdd59; border-radius: 50%;
+        }
+        .tv-antenna::before { left: -16px; transform: rotate(-30deg); }
+        .tv-antenna::after { right: -16px; transform: rotate(30deg); }
+
+        .tv-glow-effect {
+            position: absolute; top: 5%; left: 5%; width: 90%; height: 90%;
+            background: radial-gradient(circle, rgba(254, 202, 87, 0.3) 0%, rgba(133, 114, 250, 0) 70%);
+            z-index: 1; border-radius: 45px; animation: tvScreenGlowPulse 4s infinite ease-in-out;
+        }
+
+        .tv-body {
+            background: var(--tv-color); padding: 18px; border-radius: 40px;
+            box-shadow: 0 20px 0px rgba(0,0,0,0.15), 0 25px 40px rgba(0,0,0,0.12);
+            position: relative; border: 5px solid var(--tv-border); overflow: hidden; z-index: 2;
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+
+        .tv-screen {
+            background: #000000; border-radius: 24px; overflow: hidden; position: relative;
+            width: 100%; aspect-ratio: 16 / 9;
+            /* تم إزالة box-shadow الذي كان يسبب الظلال السوداء المزعجة على الفيديو */
+        }
+
+        .tv-screen video { width: 100%; height: 100%; object-fit: fill; display: block; }
+
+        .tv-overlay {
+            position: absolute; top: 18px; left: 18px; right: 18px; bottom: 18px;
+            border-radius: 24px; z-index: 10; display: flex; justify-content: center;
+            align-items: center; overflow: hidden; background: var(--tv-overlay-bg);
+            transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .tv-bg-image-file { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 1; }
+        [data-theme="dark"] .tv-bg-image-file { opacity: 0.15; }
+
+        .overlay-content {
+            position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 20px;
+        }
+
+        .overlay-content h2 {
+            font-size: 1.9rem; font-weight: 900; margin-bottom: 8px; color: var(--tv-text-color);
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8); text-align: center;
+        }
+
+        .overlay-content p {
+            font-size: 1.2rem; font-weight: 800; color: #e67e22; text-shadow: 1.5px 1.5px 0px rgba(255,255,255,0.8); margin-bottom: 25px; text-align: center;
+        }
+
+        .sparkle-icon { font-size: 2.2rem; display: block; margin-bottom: 5px; }
+
+        .glow-play-btn {
+            width: 80px; height: 80px; background: #1dd1a1; border: 4px solid #ffffff; border-radius: 50%;
+            cursor: pointer; position: relative; display: inline-flex; justify-content: center; align-items: center;
+            animation: pulseGlowPlay 1.6s infinite cubic-bezier(0.66, 0, 0, 1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0;
+        }
+        .glow-play-btn:hover { transform: scale(1.1); background: #10ac84; }
+        .play-triangle {
+            width: 0; height: 0; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent #ffffff; margin-left: 5px; display: inline-block;
+        }
+
+        .tv-stands { display: flex; justify-content: space-between; padding: 0 80px; margin-top: -5px; }
+        .stand-left, .stand-right { width: 30px; height: 20px; background: #57606f; border-radius: 0 0 12px 12px; border: 3px solid #ffffff; }
+        .tv-overlay.fade-out-magic { opacity: 0; transform: scale(1.1) rotate(2deg); pointer-events: none; }
+
+        /* ==========================================================================
+           3. صياغة العبارة الترحيبية وتأثير الجزر
+           ========================================================================== */
+        .title-wrapper { text-align: center; margin: 55px 0 35px 0; padding: 0 15px; }
+        
+        .main-title { 
+            font-size: 2.2rem; 
+            color: var(--title-color); 
+            display: inline-block; 
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+            padding-bottom: 12px;
+            transition: color 0.5s ease;
+        }
+        
+        .main-title::after {
+            content: ''; position: absolute; bottom: 0; left: 15%; width: 70%; height: 5px;
+            background: linear-gradient(90deg, transparent, var(--purple-magic), transparent); border-radius: 10px;
+        }
+        
+        .magic-islands-mesh { 
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto; justify-content: center; perspective: 1200px;
+        }
+
+        .magic-islands-mesh a:nth-child(1) { grid-column: span 2; }
+        .magic-islands-mesh a:nth-child(2) { grid-column: span 2; }
+        .magic-islands-mesh a:nth-child(3) { grid-column: span 2; }
+        .magic-islands-mesh a:nth-child(4) { grid-column: 2 / span 2; } 
+        .magic-islands-mesh a:nth-child(5) { grid-column: 4 / span 2; } 
+
+        .blob-island {
+            position: relative; text-decoration: none; color: white; display: flex; justify-content: center; align-items: center; padding: 35px 20px; min-height: 250px; text-align: center;
+            opacity: 0; transform: scale(0) rotate(-35deg) translateY(100px); transform-origin: center center;
+            transition: opacity 0.7s ease-out, transform 0.95s cubic-bezier(0.34, 1.61, 0.64, 1);
+        }
+
+        .blob-island::before {
+            content: ''; position: absolute; width: 120%; height: 120%; background: radial-gradient(circle, rgba(255, 238, 85, 0.7) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%; z-index: 0; opacity: 0; transform: scale(0.4); pointer-events: none; transition: opacity 0.5s ease-out, transform 0.6s ease-out;
+        }
+
+        .blob-island.magic-pop-active { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+        .blob-island.magic-pop-active::before { opacity: 1; transform: scale(1.3); animation: fadeOutAuraFlash 1s forwards ease-out 0.4s; }
+
+        .magic-islands-mesh a:nth-child(1) { transition-delay: 0.1s; }
+        .magic-islands-mesh a:nth-child(2) { transition-delay: 0.28s; }
+        .magic-islands-mesh a:nth-child(3) { transition-delay: 0.46s; }
+        .magic-islands-mesh a:nth-child(4) { transition-delay: 0.64s; }
+        .magic-islands-mesh a:nth-child(5) { transition-delay: 0.82s; }
+
+        .blob-island.magic-pop-active .island-content { animation: gentleIslandFloat 4.5s infinite ease-in-out; }
+        .magic-islands-mesh a:nth-child(2).magic-pop-active .island-content { animation-delay: 0.3s; }
+        .magic-islands-mesh a:nth-child(3).magic-pop-active .island-content { animation-delay: 0.6s; }
+        .magic-islands-mesh a:nth-child(4).magic-pop-active .island-content { animation-delay: 0.9s; }
+        .magic-islands-mesh a:nth-child(5).magic-pop-active .island-content { animation-delay: 1.2s; }
+
+        .blob-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: all 0.6s ease-in-out; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .island-ar .blob-bg { background: var(--ar-gradient); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        .island-en .blob-bg { background: var(--en-gradient); border-radius: 50% 50% 30% 70% / 50% 60% 40% 60%; }
+        .island-num .blob-bg { background: var(--num-gradient); border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+        .island-paint .blob-bg { background: var(--paint-gradient); border-radius: 40% 60% 40% 60% / 50% 30% 70% 50%; }
+        .island-pdf .blob-bg { background: var(--pdf-gradient); border-radius: 40% 60% 50% 50% / 40% 40% 60% 60%; }
+
+        .island-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+        .island-img { width: 100px; height: 100px; object-fit: contain; transition: transform 0.4s ease; }
+        .island-content h3 { font-size: 1.4rem; font-weight: 900; text-shadow: 2px 2px 4px var(--card-text-shadow); }
+        .go-badge { background: rgba(255, 255, 255, 0.25); padding: 5px 14px; border-radius: 50px; font-size: 0.85rem; backdrop-filter: blur(5px); font-weight: bold; }
+
+        .blob-island.magic-pop-active:hover { transform: translateY(-10px) scale(1.06) rotate(1deg); }
+        .blob-island.magic-pop-active:hover .island-content { animation-play-state: paused; }
+        .blob-island:hover .blob-bg { border-radius: 50% !important; box-shadow: 0 20px 35px rgba(0,0,0,0.25); }
+        .blob-island:hover .island-img { transform: scale(1.2) rotate(-8deg); }
+
+        /* ==========================================================================
+           4. الفوتر المتناسق الفاخر
+           ========================================================================== */
+        .luxury-footer {
+            background: var(--footer-bg); color: var(--footer-text); padding: 40px 20px; text-align: center; position: relative;
+            border-top: 6px dashed #ffee55; margin-top: 60px; border-radius: 35px 35px 0 0;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+        
+        .footer-grid-layout {
+            max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; text-align: right; align-items: start;
+        }
+        
+        .footer-about { padding-left: 20px; border-left: 2px solid #3d4a5d; }
+        
+        .footer-about h2, .footer-info h3 { 
+            color: #ffee55 !important; font-size: 1.3rem !important; font-weight: 900 !important; margin-bottom: 10px !important; text-align: right;
+        }
+        
+        .footer-about p { font-size: 1.05rem; line-height: 1.6; font-weight: bold; }
+        .footer-info p { font-size: 1.05rem; color: #ffffff; font-weight: bold; }
+        .footer-info a { color: #00d2d3; text-decoration: none; transition: 0.3s; }
+        .footer-info a:hover { color: #54a0ff; }
+
+        .footer-separator { height: 2px; background: linear-gradient(to right, transparent, #576574, transparent); margin: 20px 0 15px 0; }
+        .signature { color: #ffffff; font-size: 1.1rem; font-weight: bold; }
+
+        @keyframes bounceLogo { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
+        @keyframes pulseGlowPlay {
+            0% { box-shadow: 0 0 0 0 rgba(29, 209, 161, 0.7), 0 5px 10px rgba(0,0,0,0.1); }
+            70% { box-shadow: 0 0 0 15px rgba(29, 209, 161, 0), 0 5px 10px rgba(0,0,0,0.1); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 209, 161, 0), 0 5px 10px rgba(0,0,0,0.1); }
+        }
+        @keyframes gentleIslandFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(0.5deg); } }
+        @keyframes tvScreenGlowPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.04); opacity: 0.9; } }
+        @keyframes fadeSparkleParticle { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
+        @keyframes fadeOutAuraFlash { 100% { opacity: 0; transform: scale(1.6); } }
+
+        /* ==========================================================================
+           5. التوافق التام للهواتف الذكية (Responsive CSS)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .magic-header { padding: 25px 15px 60px 15px; }
+            .glow-text { font-size: 1.6rem !important; text-shadow: 2px 2px 0px #ff3838; line-height: 1.3; } 
+            .pulse-text { font-size: 0.95rem !important; margin-top: 6px; color: #fffb85; }
+            .main-content { margin-top: -35px; padding: 0 10px; }
+            
+            .tv-body { padding: 8px; border-radius: 18px; border-width: 3px; }
+            .tv-screen { border-radius: 12px; }
+            .tv-overlay { top: 8px; left: 8px; right: 8px; bottom: 8px; border-radius: 12px; }
+            .overlay-content h2 { font-size: 1rem; margin-bottom: 2px; font-weight: 800; } 
+            .overlay-content p { font-size: 0.75rem; margin-bottom: 8px; }
+            .sparkle-icon { font-size: 1.3rem; margin-bottom: 0px; }
+            .glow-play-btn { width: 44px; height: 44px; } 
+            .play-triangle { border-width: 7px 0 7px 12px; margin-left: 2px; }
+            .tv-stands { padding: 0 40px; margin-top: -4px; }
+            .stand-left, .stand-right { width: 18px; height: 10px; }
+            
+            .title-wrapper { margin: 35px 0 20px 0; }
+.main-title { font-size: 4vw; padding-bottom: 6px; white-space: nowrap; }
+            .controls-wrapper { top: 12px; left: 12px; gap: 8px; }
+            .control-circle-btn { width: 40px; height: 40px; font-size: 0.95rem; border-width: 2px; }
+
+            .magic-islands-mesh {
+                display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; padding: 0 5px !important;
+            }
+            
+            .magic-islands-mesh a { grid-column: auto !important; }
+            .magic-islands-mesh a:nth-child(5) { grid-column: span 2 !important; }
+            
+            .blob-island { 
+                min-height: 140px !important; padding: 15px 10px !important; border-radius: 20px !important; transform: scale(0) rotate(-20deg) translateY(60px); 
+            }
+            .island-img { width: 55px !important; height: 55px !important; }
+            .island-content { gap: 6px !important; }
+            .island-content h3 { font-size: 0.95rem !important; font-weight: 900; }
+            .go-badge { padding: 3px 10px !important; font-size: 0.75rem !important; }
+
+            .magic-islands-mesh a:nth-child(1) { transition-delay: 0.05s; }
+            .magic-islands-mesh a:nth-child(2) { transition-delay: 0.14s; }
+            .magic-islands-mesh a:nth-child(3) { transition-delay: 0.23s; }
+            .magic-islands-mesh a:nth-child(4) { transition-delay: 0.32s; }
+            .magic-islands-mesh a:nth-child(5) { transition-delay: 0.41s; }
+
+            .footer-grid-layout { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .footer-about { padding-left: 0; border-left: none; border-bottom: 2px dashed #3d4a5d; padding-bottom: 12px; }
+            .footer-about h2, .footer-info h3 { text-align: center !important; font-size: 1.1rem !important; }
+            .footer-about p { font-size: 0.88rem; text-align: center; line-height: 1.5; }
+            .footer-info p { font-size: 0.88rem; text-align: center; }
+            .luxury-footer { padding: 20px 12px; margin-top: 30px; border-radius: 20px 20px 0 0; }
+            .signature { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 360px) {
+            .glow-text { font-size: 1.4rem !important; }
+            .overlay-content p { display: none; }
+            .island-content h3 { font-size: 0.85rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="pop-sound" src="audio/pop.mp3" preload="auto"></audio>
+    <audio id="water-sound" src="audio/water-hover.mp3" preload="auto"></audio>
+    <audio id="bg-music" src="audio/background-music.mp3" loop autoplay preload="auto"></audio>
+
+    <div class="controls-wrapper">
+        <button id="music-control-btn" class="control-circle-btn" aria-label="كتم أو تشغيل الموسيقى">
+            <span class="music-icon-on">🎵</span>
+            <span class="music-icon-off hidden-icon">🔇</span>
+        </button>
+
+        <button id="theme-toggle-btn" class="control-circle-btn" aria-label="تبديل الوضع الليلي والنهاري">
+            <span class="theme-icon-to-dark">🌙</span>
+            <span class="theme-icon-to-light hidden-icon">☀️</span>
+        </button>
+    </div>
+
+    <header class="magic-header">
+        <div class="header-container">
+            <div class="brand-box">
+                <img src="images/logo.png" alt="شعار جزر المعرفة التفاعلي للأطفال" class="sparkle-logo">
+                <h1 class="glow-text">عالم جزر المعرفة السحري</h1>
+            </div>
+            <p class="pulse-text">حيث يتحول التعلم إلى مغامرة لا تُنسى! 🚀</p>
+        </div>
+        <script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+crossorigin="anonymous"></script>
+    </header>
+
+    <main class="main-content">
+        
+        <section class="cinema-universe" aria-label="شاشة العرض التفاعلية">
+            <div class="magic-tv-container">
+                <div class="tv-antenna"></div>
+                <div class="tv-glow-effect"></div>
+                <div class="tv-body">
+                    
+                    <div id="video-overlay" class="tv-overlay">
+                        <img src="images/tv-background.png" alt="خلفية شاشة التلفاز السحرية الكرتونية" class="tv-bg-image-file">
+
+                        <div class="overlay-content">
+                            <span class="sparkle-icon">✨</span>
+                            <h2>مرحباً يا أبطال! جاهزون للمفاجأة؟</h2>
+                            <p>اضغطوا على زر التشغيل السحري لتكتشفوا السر! 👇</p>
+                            
+                            <button id="play-magic-btn" class="glow-play-btn" aria-label="تشغيل الفيديو السحري للأطفال">
+                                <span class="play-triangle"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tv-screen">
+                        <video id="kids-welcome-video" controls playsinline>
+                            <source src="video/welcome-video.mp4" type="video/mp4">
+                            متصفحك لا يدعم تشغيل الفيديو التعليمي.
+                        </video>
+                    </div>
+
+                </div>
+                <div class="tv-stands">
+                    <span class="stand-left"></span>
+                    <span class="stand-right"></span>
+                </div>
+            </div>
+        </section>
+
+        <div class="title-wrapper">
+            <h2 class="main-title">اختر وجهتك السحرية وانطلق في رحلة الاستكشاف</h2>
+        </div>
+
+        <section class="magic-islands-mesh">
+            
+            <a href="arabic.html" class="blob-island island-ar" onclick="playPopSound(event)" onmouseenter="playWaterSound()" onmouseleave="stopWaterSound()" aria-label="جزيرة لغة الضاد المرحة لتعليم اللغة العربية">
+                <div class="blob-bg"></div>
+                <div class="island-content">
+                    <img src="images/arabic-icon.png" alt="أيقونة كرتونية لتعليم اللغة العربية" class="island-img">
+                    <h3>لغة الضاد المرحة</h3>
+                    <span class="go-badge">لننطلق ➔</span>
+                </div>
+            </a>
+
+            <a href="english.html" class="blob-island island-en" onclick="playPopSound(event)" onmouseenter="playWaterSound()" onmouseleave="stopWaterSound()" aria-label="جزيرة اللغة الإنجليزية للأطفال">
+                <div class="blob-bg"></div>
+                <div class="island-content">
+                    <img src="images/english-icon.png" alt="أيقونة كرتونية لتعليم الإنجليزية" class="island-img">
+                    <h3>عالم الإنجليزية</h3>
+                    <span class="go-badge">Let's Go ➔</span>
+                </div>
+            </a>
+
+            <a href="numbers.html" class="blob-island island-num" onclick="playPopSound(event)" onmouseenter="playWaterSound()" onmouseleave="stopWaterSound()" aria-label="جزيرة الحساب ومملكة الأرقام السحرية">
+                <div class="blob-bg"></div>
+                <div class="island-content">
+                    <img src="images/numbers-icon.png" alt="أيقونة كرتونية لتعليم الأرقام" class="island-img">
+                    <h3>مملكة الأرقام السحرية</h3>
+                    <span class="go-badge">اكتشف ➔</span>
+                </div>
+            </a>
+
+            <a href="colors.html" class="blob-island island-paint" onclick="playPopSound(event)" onmouseenter="playWaterSound()" onmouseleave="stopWaterSound()" aria-label="جزيرة الألوان والرسومات المبدعة">
+                <div class="blob-bg"></div>
+                <div class="island-content">
+                    <img src="images/colors-icon.png" alt="أيقونة كرتونية لتعليم الرسم والألوان" class="island-img">
+                    <h3>جزيرة الألوان المبدعة</h3>
+                    <span class="go-badge">ارسم ولوّن ➔</span>
+                </div>
+            </a>
+
+            <a href="worksheets.html" class="blob-island island-pdf" onclick="playPopSound(event)" onmouseenter="playWaterSound()" onmouseleave="stopWaterSound()" aria-label="جزيرة أوراق العمل والأنشطة التعليمية بصيغة بي دي إف">
+                <div class="blob-bg"></div>
+                <div class="island-content">
+                    <img src="images/worksheets-icon.png" alt="أيقونة كرتونية لأوراق العمل والكتب" class="island-img">
+                    <h3>أوراق العمل التعليمية (PDF)</h3>
+                    <span class="go-badge">تحميل وطباعة ➔</span>
+                </div>
+            </a>
+
+        </section>
+    </main>
+
+    <footer class="luxury-footer">
+        <div class="footer-grid-layout">
+            
+            <div class="footer-about">
+                <h2>عن منصتنا السحرية</h2>
+                <p>منصة "عالم جزر المعرفة السحري" تم تطويرها بواسطة فدوى ماجد أبو حفيظة وهي منصة تفاعلية مبتكرة مصممة لأطفال الروضة والتعليم المبكر، تدمج المرح بالتعلم عبر رسومات ومؤثرات صوتية ومحتوى هادف لتأسيس جيل مبدع ومحب للعلم.</p>
+            </div>
+
+            <div class="footer-info">
+                <h3>تواصلوا معنا للإستفسارات والدعم</h3>
+               <p>✉️ <a href="mailto:magicalworld.knowledgeislands@gmail.com">magicalworld.knowledgeislands@gmail.com</a></p>
+
+                            </div>
+            
+        </div>
+        
+        <div class="footer-separator"></div>
+        
+        <p class="signature">جميع الحقوق محفوظة 2026 © عالم جزر المعرفة السحري</p>
+    </footer>
+
+    <script>
+        function playPopSound(event) {
+            const pop = document.getElementById('pop-sound');
+            if (pop) {
+                pop.currentTime = 0;
+                pop.play().catch(err => console.log(err));
+            }
+            if (event && event.currentTarget && event.currentTarget.tagName === 'A') {
+                event.preventDefault();
+                const destination = event.currentTarget.getAttribute('href');
+                setTimeout(() => { window.location.href = destination; }, 400);
+            }
+        }
+
+        function playWaterSound() {
+            const water = document.getElementById('water-sound');
+            if (water) { water.muted = false; water.currentTime = 0; water.volume = 0.22; water.play().catch(() => {}); }
+        }
+
+        function stopWaterSound() {
+            const water = document.getElementById('water-sound');
+            if (water) { water.muted = true; water.pause(); water.currentTime = 0; }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const playMagicBtn = document.getElementById('play-magic-btn');
+            const videoOverlay = document.getElementById('video-overlay');
+            const welcomeVideo = document.getElementById('kids-welcome-video');
+            const bgMusic = document.getElementById('bg-music');
+            
+            const musicControlBtn = document.getElementById('music-control-btn');
+            const iconOn = document.querySelector('.music-icon-on');
+            const iconOff = document.querySelector('.music-icon-off');
+
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const iconToDark = document.querySelector('.theme-icon-to-dark');
+            const iconToLight = document.querySelector('.theme-icon-to-light');
+
+            if (bgMusic) { bgMusic.volume = 0.05; }
+
+            function startAmbientMusicFast() {
+                if (bgMusic && bgMusic.paused) {
+                    bgMusic.play().then(() => {
+                        document.removeEventListener('click', startAmbientMusicFast);
+                        document.removeEventListener('touchstart', startAmbientMusicFast);
+                    }).catch(() => {});
+                }
+            }
+            document.addEventListener('click', startAmbientMusicFast);
+            document.addEventListener('touchstart', startAmbientMusicFast);
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    playPopSound();
+                    
+                    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                        document.documentElement.removeAttribute('data-theme');
+                        iconToDark.classList.remove('hidden-icon');  
+                        iconToLight.classList.add('hidden-icon');    
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        iconToDark.classList.add('hidden-icon');     
+                        iconToLight.classList.remove('hidden-icon');   
+                    }
+                });
+            }
+
+            const islands = document.querySelectorAll('.blob-island');
+            const islandObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('magic-pop-active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+
+            islands.forEach(island => islandObserver.observe(island));
+
+            document.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.88) { 
+                    const particle = document.createElement('div');
+                    particle.className = 'magic-sparkle-particle';
+                    particle.style.left = e.clientX + 'px';
+                    particle.style.top = e.clientY + 'px';
+                    const colors = ['#ffee55', '#ff6b81', '#1dd1a1', '#00d2d3', '#a29bfe'];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+                    document.body.appendChild(particle);
+                    setTimeout(() => { particle.remove(); }, 800);
+                }
+            });
+
+            if (musicControlBtn && bgMusic) {
+                musicControlBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    playPopSound(); 
+                    if (bgMusic.muted) {
+                        bgMusic.muted = false;
+                        iconOn.classList.remove('hidden-icon');
+                        iconOff.classList.add('hidden-icon');
+                    } else {
+                        bgMusic.muted = true;
+                        iconOn.classList.add('hidden-icon');
+                        iconOff.classList.remove('hidden-icon');
+                    }
+                });
+            }
+
+            if (playMagicBtn && videoOverlay && welcomeVideo) {
+                playMagicBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    startAmbientMusicFast();
+                    playPopSound();
+                    videoOverlay.classList.add('fade-out-magic');
+                    setTimeout(() => {
+                        welcomeVideo.muted = false;
+                        welcomeVideo.volume = 1.0; 
+                        welcomeVideo.play().catch(() => {});
+                    }, 150);
+                });
+            }
+
+            // كود إيقاف الصوت والفيديو عند مغادرة أو تصغير المتصفح
+            document.addEventListener("visibilitychange", function() {
+                if (document.hidden) {
+                    // إيقاف الموسيقى الخلفية
+                    if (bgMusic && !bgMusic.paused) {
+                        bgMusic.pause();
+                        bgMusic.dataset.wasPlaying = "true";
+                    }
+                    // إيقاف الفيديو الترحيبي
+                    if (welcomeVideo && !welcomeVideo.paused) {
+                        welcomeVideo.pause();
+                        welcomeVideo.dataset.wasPlaying = "true";
+                    }
+                } else {
+                    /*
+                    if (bgMusic && bgMusic.dataset.wasPlaying === "true") {
+                        bgMusic.play().catch(()=>{});
+                        bgMusic.dataset.wasPlaying = "false";
+                    }
+                    */
+                }
+            });
+        });
+    </script>
+</body>
+</html>
