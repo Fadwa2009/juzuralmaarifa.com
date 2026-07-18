@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tourmaline-madeleine-e2ca9e.netlify.app/sitemap.xml 
